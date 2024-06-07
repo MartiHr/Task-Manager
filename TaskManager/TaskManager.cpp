@@ -4,6 +4,7 @@
 
 void TaskManager::handleCommands(MyString& command, std::istream& is, const char* userDataFile)
 {
+	// TODO: extract string elsewhere
 	while (command != "exit")
 	{
 		if (command == "register")
@@ -14,7 +15,7 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		{
 
 		}
-		else if(command == "add-task")
+		else if (command == "add-task")
 		{
 
 		}
@@ -42,7 +43,7 @@ void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 	// add to binary
 	User currentUser = { username, password };
 	UserSerializer::saveUser(currentUser, userDataFile);
-	
+
 	// add to state
 	usersState.pushBack(currentUser);
 }
@@ -54,9 +55,8 @@ void TaskManager::handleLogin(std::istream& is, const char* userDataFile)
 
 void TaskManager::start(std::istream& is, const char* userDataFile)
 {
-	
-	//TODO: on start set users collection
-	Vector<User> users = UserSerializer::readUsers(userDataFile);
+	// Get initial state
+	usersState = UserSerializer::readUsers(userDataFile);
 
 	MyString firstCommand;
 	is >> firstCommand;

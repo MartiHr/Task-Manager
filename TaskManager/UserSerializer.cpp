@@ -25,16 +25,9 @@ void UserSerializer::saveUser(const User& user, const char* fileName)
 	file.close();
 }
 
-User UserSerializer::readUser(const char* fileName)
+User UserSerializer::readUser(std::ifstream& file)
 {
 	User user;
-
-	std::ifstream file(fileName, std::ios::binary);
-
-	if (!file.is_open())
-	{
-		throw std::runtime_error(ExceptionMessages::FILE_OPEN_READ_ERROR);
-	}
 
 	size_t usernameLength;
 	size_t passwordLength;
@@ -55,7 +48,27 @@ User UserSerializer::readUser(const char* fileName)
 	user.password = MyString(tempPassword);
 	delete[] tempPassword;
 
-	file.close();
 
 	return user;
+}
+
+Vector<User> UserSerializer::readUsers(const char* fileName)
+{
+	Vector<User> users;
+
+	std::ifstream file(fileName, std::ios::binary);
+
+	if (!file.is_open())
+	{
+		throw std::runtime_error(ExceptionMessages::FILE_OPEN_READ_ERROR);
+	}
+
+	while (file.eof() == false)
+	{
+		users.pushBack(readUser(file));
+	}
+	
+	file.close();
+
+	return users;
 }

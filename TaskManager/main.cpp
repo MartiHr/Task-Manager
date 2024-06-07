@@ -17,5 +17,5 @@ int main()
 
 	std::cout << newU.username << newU.password;*/
 
-	TaskManager::start(std::cin);
+	TaskManager::start(std::cin, "users.bin");
 }

@@ -1,9 +1,9 @@
 #pragma once
 #include "MyString.h"
 
-class User
+// possibly change back to class
+struct User
 {
 	MyString username;
 	MyString password;
-	
 };

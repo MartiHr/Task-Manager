@@ -22,3 +22,8 @@ MyString Problem::statusToString(Status status) const
 		break;
 	}
 }
+
+int Problem::getNextUid() const
+{
+	return ++lastUid;
+}

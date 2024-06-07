@@ -1,3 +1,4 @@
+//https://github.com/Angeld55/Object-oriented_programming_FMI/blob/master/Week%2014/ExpressionCalculator/String%20and%20StringView/MyString.h
 #include "MyString.h"
 #include <cstring>
 #include <algorithm>

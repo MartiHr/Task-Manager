@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dashboard.h" />
+    <ClInclude Include="ExceptionMessages.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="Optional.hpp" />
     <ClInclude Include="Problem.h" />

@@ -144,6 +144,7 @@
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="UserSerializer.h" />
+    <ClInclude Include="Vector.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

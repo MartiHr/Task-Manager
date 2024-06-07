@@ -89,7 +89,7 @@ const T& Optional<T>::getValue() const
 {
 	if (!hasValue()) 
 	{
-		throw std::logic("No value in optional");
+		throw std::exception("No value in optional");
 	}
 
 	return *value;

@@ -6,7 +6,7 @@
 
 void UserSerializer::saveUser(const User& user, const char* fileName)
 {
-	std::ofstream file(fileName);
+	std::ofstream file(fileName, std::ios::binary | std::ios::app);
 
 	if (!file.is_open())
 	{
@@ -21,6 +21,8 @@ void UserSerializer::saveUser(const User& user, const char* fileName)
 
 	file.write(reinterpret_cast<const char*>(&passwordLength), sizeof(passwordLength));
 	file.write(user.password.c_str(), passwordLength);
+
+	file.close();
 }
 
 User UserSerializer::readUser(const char* fileName)
@@ -52,4 +54,8 @@ User UserSerializer::readUser(const char* fileName)
 	
 	user.password = MyString(tempPassword);
 	delete[] tempPassword;
+
+	file.close();
+
+	return user;
 }

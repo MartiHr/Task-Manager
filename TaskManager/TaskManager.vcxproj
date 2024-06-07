@@ -141,6 +141,7 @@
     <ClInclude Include="MyString.h" />
     <ClInclude Include="Optional.hpp" />
     <ClInclude Include="Problem.h" />
+    <ClInclude Include="TaskManager.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="UserSerializer.h" />
   </ItemGroup>

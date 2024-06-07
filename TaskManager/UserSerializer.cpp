@@ -32,6 +32,7 @@ User UserSerializer::readUser(std::ifstream& file)
 	size_t usernameLength;
 	size_t passwordLength;
 
+	// Read username
 	file.read(reinterpret_cast<char*>(&usernameLength), sizeof(usernameLength));
 	char* tempUsername = new char [usernameLength + 1];
 	file.read(tempUsername, usernameLength);
@@ -40,6 +41,7 @@ User UserSerializer::readUser(std::ifstream& file)
 	user.username = MyString(tempUsername);
 	delete[] tempUsername;
 
+	// Read password
 	file.read(reinterpret_cast<char*>(&passwordLength), sizeof(passwordLength));
 	char* tempPassword = new char[passwordLength + 1];
 	file.read(tempPassword, passwordLength);
@@ -47,7 +49,6 @@ User UserSerializer::readUser(std::ifstream& file)
 	
 	user.password = MyString(tempPassword);
 	delete[] tempPassword;
-
 
 	return user;
 }
@@ -65,10 +66,50 @@ Vector<User> UserSerializer::readUsers(const char* fileName)
 
 	while (file.eof() == false)
 	{
-		users.pushBack(readUser(file));
+		try {
+			// Attempt to read a user
+			User user = readUser(file);
+
+			// Check if we've reached the end of the file
+			if (file.eof())
+			{
+				break;
+			}
+
+			users.pushBack(user);
+		}
+		catch (const std::exception& e) 
+		{
+			std::cerr << "Error reading user: " << e.what() << std::endl;
+			break;
+		}
+
 	}
 	
 	file.close();
 
 	return users;
+}
+
+bool UserSerializer::ensureDataFileCreated(const char* fileName)
+{
+	std::ifstream file(fileName);
+
+	if (file.good()) 
+	{
+		file.close();
+		return true;
+	}
+
+	// If the file does not exist, create it
+	std::ofstream createFile(fileName);
+
+	if (!createFile)
+	{
+		return false;
+	}
+
+	createFile.close();
+
+	return true;
 }

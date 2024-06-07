@@ -2,6 +2,8 @@
 #include "MyString.h"
 #include "UserSerializer.h"
 
+Vector<User> TaskManager::usersState;
+
 bool TaskManager::loggedIn = false;
 
 void TaskManager::handleCommands(MyString& command, std::istream& is, const char* userDataFile)
@@ -31,7 +33,7 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		}
 		else
 		{
-			std::cout << "No such command";
+			std::cout << "No such command." << std::endl;
 		}
 
 		std::cin >> command;
@@ -53,14 +55,14 @@ void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 	// add to state
 	usersState.pushBack(currentUser);
 
-	std::cout << "Registered user " << username << "successfully!";
+	std::cout << "Registered user " << username << " successfully!" << std::endl;
 }
 
 void TaskManager::handleLogin(std::istream& is)
 {
 	if (loggedIn)
 	{
-		std::cout << "Already logged in";
+		std::cout << "Already logged in" << std::endl;
 		return;
 	}
 
@@ -72,11 +74,15 @@ void TaskManager::handleLogin(std::istream& is)
 
 	for (int i = 0; i < usersState.getSize(); i++)
 	{
-		if (usersState[i].username == loginUsername)
+		if (usersState[i].username == loginUsername && usersState[i].password == loginPassword)
 		{
-			std::cout << "Welcome back, " << loginUsername << "!";
+			std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
 			loggedIn = true;
 			break;
+		}
+		else
+		{
+			std::cout << "Wrong credentials." << std::endl;
 		}
 	}
 }
@@ -84,7 +90,7 @@ void TaskManager::handleLogin(std::istream& is)
 void TaskManager::handleLogout()
 {
 	loggedIn = false;
-	std::cout << "Logged out";
+	std::cout << "Logged out" << std::endl;
 }
 
 void TaskManager::handleAddTask(std::istream& is)
@@ -94,6 +100,14 @@ void TaskManager::handleAddTask(std::istream& is)
 
 void TaskManager::start(std::istream& is, const char* userDataFile)
 {
+	// Ensure data file exists (needed for the first run)
+	bool fileExists = UserSerializer::ensureDataFileCreated(userDataFile);
+	
+	if (!fileExists)
+	{
+		throw std::runtime_error("Data file could not be generated");
+	}
+
 	// Get initial state
 	usersState = UserSerializer::readUsers(userDataFile);
 

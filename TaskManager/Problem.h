@@ -14,7 +14,7 @@ enum class Status
 class Problem
 {
 private:
-	//TODO: add snapshot
+	//TODO: add snapshot for problem names
 	static int lastUid;
 
 	int uid;
@@ -22,9 +22,8 @@ private:
 	Optional<std::time_t> dueDate;
 	Status status;
 	MyString description;
-
 public:
-
+	Problem();
 private:
 	MyString statusToString(Status status) const;
 	int getNextUid() const;

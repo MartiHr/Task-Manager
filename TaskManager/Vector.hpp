@@ -25,7 +25,7 @@ public:
 	Vector(const Vector<T>& other);
 	Vector(Vector<T>&& other);
 	Vector<T>& operator=(const Vector<T>& other);
-	Vector<T>& operator=(Vector<T>&& other);
+	Vector<T>& operator=(Vector<T>&& other) noexcept;
 	~Vector();
 
 	size_t getSize() const;
@@ -86,7 +86,7 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& other)
 }
 
 template<typename T>
-Vector<T>& Vector<T>::operator=(Vector<T>&& other)
+Vector<T>& Vector<T>::operator=(Vector<T>&& other) noexcept
 {
 	if (this != &other)
 	{

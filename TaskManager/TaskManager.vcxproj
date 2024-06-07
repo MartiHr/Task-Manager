@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dashboard.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="Problem.cpp" />
     <ClCompile Include="TaskManager.cpp" />
@@ -134,10 +135,12 @@
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dashboard.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="Optional.hpp" />
     <ClInclude Include="Problem.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="UserSerializer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

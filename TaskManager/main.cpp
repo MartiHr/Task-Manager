@@ -17,5 +17,10 @@ int main()
 
 	std::cout << newU.username << newU.password;*/
 
-	TaskManager::start(std::cin, "users.bin");
+	//TaskManager::start(std::cin, "users.bin");
+
+	MyString str;
+	std::cin >> str;
+
+	Optional<std::time_t> time = 
 }

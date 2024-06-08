@@ -2,10 +2,15 @@
 
 int Task::lastUid = 0;
 
-Task::Task(MyString& name, Optional<std::time_t>, Status status, MyString& description)
-{
+Task::Task() : uid(getNextUid()), status(Status::ON_HOLD) {}
 
-}
+Task::Task(const MyString& name, Status status, const MyString& description)
+	: uid(getNextUid()), name(name), status(status), description(description) {}
+
+Task::Task(const MyString& name, const Optional<std::time_t>& dueDate,
+	Status status, const MyString& description)
+	: uid(getNextUid()), name(name), dueDate(dueDate),
+	status(status), description(description) {}
 
 MyString Task::statusToString(Status status) const
 {

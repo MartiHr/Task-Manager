@@ -1,12 +1,15 @@
 #pragma once
 #include "User.h"
 #include "Vector.hpp"
+#include "Task.h"
 
 // engine-like class
 class TaskManager
 {
 private:
+
 	static Vector<User> usersState;
+	static Vector<Task> tasks;
 
 	static bool loggedIn;
 

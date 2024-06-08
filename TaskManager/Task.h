@@ -27,6 +27,11 @@ public:
 	Task(const MyString& name, Status status, const MyString& description);
 	Task(const MyString& name, const Optional<std::time_t>& dueDate,
 		Status status, const MyString& description);
+
+	MyString& getName() const;
+
+	void setName(const MyString& newName);
+	void setDescription(const MyString& newDescription);
 private:
 	MyString statusToString(Status status) const;
 	int getNextUid() const;

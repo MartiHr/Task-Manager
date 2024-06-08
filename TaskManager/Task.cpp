@@ -12,6 +12,21 @@ Task::Task(const MyString& name, const Optional<std::time_t>& dueDate,
 	: uid(getNextUid()), name(name), dueDate(dueDate),
 	status(status), description(description) {}
 
+MyString& Task::getName() const
+{
+	return name;
+}
+
+void Task::setName(const MyString& newName)
+{
+	name = newName;
+}
+
+void Task::setDescription(const MyString& newDescription)
+{
+	description = newDescription;
+}
+
 MyString Task::statusToString(Status status) const
 {
 	switch (status)

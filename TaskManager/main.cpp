@@ -22,5 +22,5 @@ int main()
 	MyString str;
 	std::cin >> str;
 
-	Optional<std::time_t> time = 
+	//Optional<std::time_t> time = 
 }

@@ -27,6 +27,11 @@ void Task::setDescription(const MyString& newDescription)
 	description = newDescription;
 }
 
+void Task::setStatus(Status status)
+{
+	this->status = status;
+}
+
 MyString Task::statusToString(Status status) const
 {
 	switch (status)

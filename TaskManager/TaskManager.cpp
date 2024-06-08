@@ -44,6 +44,30 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		{
 			handleUpdateTaskDescription(is);
 		}
+		else if (command == "remove-task-from-dashboard")
+		{
+
+		}
+		else if (command == "add-task-to-dashboard")
+		{
+
+		}
+		else if (command == "delete-task")
+		{
+
+		}
+		else if (command == "get-task")
+		{
+
+		}
+		else if (command == "list-tasks")
+		{
+
+		}
+		else if (command == "list-completed-tasks")
+		{
+
+		}
 		else if (command == "exit")
 		{
 			break;
@@ -172,6 +196,11 @@ void TaskManager::handleAddTask(std::istream& is)
 
 Task& TaskManager::findTask(int taskId)
 {
+	if (taskId < 0 || taskId >= tasks.getSize())
+	{
+		throw std::invalid_argument("Task does not exist");
+	}
+
 	return tasks[taskId];
 }
 
@@ -184,6 +213,8 @@ Task& TaskManager::findTask(const MyString& name)
 			return tasks[i];
 		}
 	}
+
+	throw std::invalid_argument("Task does not exist");
 }
 
 void TaskManager::handleUpdateTaskName(std::istream& is)
@@ -194,8 +225,33 @@ void TaskManager::handleUpdateTaskName(std::istream& is)
 	is >> id;
 	is >> newName;
 
-	Task& taskToChange = findTask(id);
-	taskToChange.setName(newName);
+	try
+	{
+		Task& taskToChange = findTask(id);
+		taskToChange.setName(newName);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
+	
+}
+
+void TaskManager::handleStartTask(std::istream& is)
+{
+	int  id;
+	is >> id;
+	try
+	{
+		Task& taskToChange = findTask(id);
+		taskToChange.setStatus(Status::IN_PROCESS);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
 }
 
 void TaskManager::handleUpdateTaskDescription(std::istream& is)
@@ -206,12 +262,22 @@ void TaskManager::handleUpdateTaskDescription(std::istream& is)
 	is >> id;
 	is >> description;
 
-	Task& taskToChange = findTask(id);
-	taskToChange.setDescription(description);
+	try
+	{
+		Task& taskToChange = findTask(id);
+		taskToChange.setDescription(description);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
+	
 }
 
-void TaskManager::start(std::istream& inputStream, const char* userDataFile)
+void TaskManager::start(std::istream& is, const char* userDataFile)
 {
+	
 	// Ensure data file exists (needed for the first run)
 	bool fileExists = UserSerializer::ensureDataFileCreated(userDataFile);
 

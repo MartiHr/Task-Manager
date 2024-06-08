@@ -32,6 +32,7 @@ public:
 
 	void setName(const MyString& newName);
 	void setDescription(const MyString& newDescription);
+	void setStatus(Status status);
 private:
 	MyString statusToString(Status status) const;
 	int getNextUid() const;

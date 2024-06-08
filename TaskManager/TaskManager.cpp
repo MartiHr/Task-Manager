@@ -32,6 +32,18 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		{
 			handleAddTask(is);
 		}
+		else if (command == "update-task-name")
+		{
+			handleUpdateTaskName(is);
+		}
+		else if (command == "start-task")
+		{
+			handleStartTask(is);
+		}
+		else if (command == "update-task-description")
+		{
+			handleUpdateTaskDescription(is);
+		}
 		else if (command == "exit")
 		{
 			break;
@@ -154,11 +166,51 @@ void TaskManager::handleAddTask(std::istream& is)
 		}
 	}
 
-	tasks.pushBack(Task(name, dueDate, Status::IN_PROCESS, description));
+	tasks.pushBack(Task(name, dueDate, Status::ON_HOLD, description));
 	std::cout << "Task added successfully." << std::endl;
 }
 
-void TaskManager::start(std::istream& is, const char* userDataFile)
+Task& TaskManager::findTask(int taskId)
+{
+	return tasks[taskId];
+}
+
+Task& TaskManager::findTask(const MyString& name)
+{
+	for (int i = 0; i < tasks.getSize(); i++)
+	{
+		if (tasks[i].getName() == name)
+		{
+			return tasks[i];
+		}
+	}
+}
+
+void TaskManager::handleUpdateTaskName(std::istream& is)
+{
+	int  id;
+	MyString newName;
+
+	is >> id;
+	is >> newName;
+
+	Task& taskToChange = findTask(id);
+	taskToChange.setName(newName);
+}
+
+void TaskManager::handleUpdateTaskDescription(std::istream& is)
+{
+	int  id;
+	MyString description;
+
+	is >> id;
+	is >> description;
+
+	Task& taskToChange = findTask(id);
+	taskToChange.setDescription(description);
+}
+
+void TaskManager::start(std::istream& inputStream, const char* userDataFile)
 {
 	// Ensure data file exists (needed for the first run)
 	bool fileExists = UserSerializer::ensureDataFileCreated(userDataFile);
@@ -175,3 +227,4 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 	is >> firstCommand;
 	handleCommands(firstCommand, is, userDataFile);
 }
+

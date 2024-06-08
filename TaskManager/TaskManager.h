@@ -20,6 +20,13 @@ private:
 	static void handleLogout();
 
 	static void handleAddTask(std::istream& is);
+	static void handleUpdateTaskName(std::istream& is);
+	static void handleStartTask(std::istream& is);
+	static void handleUpdateTaskDescription(std::istream& is);
 public:
 	static void start(std::istream& is, const char* userDataFile);
+
+private:
+	static Task& findTask(int taskId);
+	static Task& findTask(const MyString& name);
 };

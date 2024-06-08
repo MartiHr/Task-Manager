@@ -7,6 +7,7 @@ class TaskManager
 {
 private:
 	static Vector<User> usersState;
+
 	static bool loggedIn;
 
 	static void handleCommands(MyString& command, std::istream& is, const char* userDataFile);

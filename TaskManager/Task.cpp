@@ -1,8 +1,13 @@
-#include "Problem.h"
+#include "Task.h"
 
-int Problem::lastUid = 0;
+int Task::lastUid = 0;
 
-MyString Problem::statusToString(Status status) const
+Task::Task(MyString& name, Optional<std::time_t>, Status status, MyString& description)
+{
+
+}
+
+MyString Task::statusToString(Status status) const
 {
 	switch (status)
 	{
@@ -23,7 +28,7 @@ MyString Problem::statusToString(Status status) const
 	}
 }
 
-int Problem::getNextUid() const
+int Task::getNextUid() const
 {
 	return ++lastUid;
 }

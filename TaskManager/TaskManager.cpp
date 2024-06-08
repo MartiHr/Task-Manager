@@ -42,6 +42,12 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 
 void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 {
+	if (loggedIn)
+	{
+		std::cout << "Already logged in" << std::endl;
+		return;
+	}
+
 	MyString username;
 	MyString password;
 
@@ -95,6 +101,21 @@ void TaskManager::handleLogout()
 
 void TaskManager::handleAddTask(std::istream& is)
 {
+	if (!loggedIn)
+	{
+		std::cout << "You should login first" << std::endl;
+		return;
+	}
+
+
+	MyString name;
+	MyString dueDate;
+	MyString description;
+
+	is >> name;
+	is >> dueDate;
+	is >> description;
+
 
 }
 

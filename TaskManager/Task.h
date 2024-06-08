@@ -11,7 +11,7 @@ enum class Status
 	OVERDUE
 };
 
-class Problem
+class Task
 {
 private:
 	//TODO: add snapshot for problem names
@@ -23,7 +23,9 @@ private:
 	Status status;
 	MyString description;
 public:
-	Problem();
+	//Task();
+	Task(MyString& name, Status status, MyString& description);
+	Task(MyString& name, Optional<std::time_t>,Status status, MyString& description);
 private:
 	MyString statusToString(Status status) const;
 	int getNextUid() const;

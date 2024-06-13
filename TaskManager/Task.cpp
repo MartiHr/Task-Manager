@@ -17,9 +17,16 @@ const MyString& Task::getName() const
 	return name;
 }
 
-MyString& Task::getDueDate() const
+std::time_t Task::getDueDate() const
 {
-
+	if (dueDate.hasValue()) 
+	{
+		return dueDate.getValue();
+	}
+	else 
+	{
+		throw std::runtime_error("Due date is not set.");
+	}
 }
 
 void Task::setName(const MyString& newName)

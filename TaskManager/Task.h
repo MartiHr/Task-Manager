@@ -29,7 +29,7 @@ public:
 		Status status, const MyString& description);
 
 	const MyString& getName() const;
-	MyString& getDueDate() const;
+	std::time_t getDueDate() const;
 
 	void setName(const MyString& newName);
 	void setDescription(const MyString& newDescription);

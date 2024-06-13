@@ -126,6 +126,8 @@ void TaskManager::handleLogin(std::istream& is)
 		{
 			std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
 			loggedIn = true;
+			dashboard.setTasks(loginUsername);
+
 			break;
 		}
 		else
@@ -138,6 +140,7 @@ void TaskManager::handleLogin(std::istream& is)
 void TaskManager::handleLogout()
 {
 	loggedIn = false;
+
 	std::cout << "Logged out" << std::endl;
 }
 
@@ -307,8 +310,6 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 
 	// Get initial state
 	usersState = UserSerializer::readUsers(userDataFile);
-
-
 
 	MyString firstCommand;
 	is >> firstCommand;

@@ -8,10 +8,13 @@
 class TaskManager
 {
 private:
+	// possibly extract in collection like class
 	static Vector<User> usersState;
 	static Vector<Task> tasks;
+	
+	//TODO: extract in CurrentUserState class or something of the sort
+	// for the following two
 	static Dashboard dashboard;
-
 	static bool loggedIn;
 
 	static void handleCommands(MyString& command, std::istream& is, const char* userDataFile);
@@ -35,4 +38,6 @@ public:
 private:
 	static Task& findTask(int taskId);
 	static Task& findTask(const MyString& name);
+	static Vector<Task> getUserTask(const MyString& username);
+	static void setDashboardTasks(const MyString& username);
 };

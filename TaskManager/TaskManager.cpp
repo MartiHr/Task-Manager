@@ -8,6 +8,7 @@
 
 Vector<User> TaskManager::usersState;
 Vector<Task> TaskManager::tasks;
+Dashboard TaskManager::dashboard;
 
 bool TaskManager::loggedIn = false;
 

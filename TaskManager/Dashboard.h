@@ -21,5 +21,4 @@ public:
 
     // Get tasks for today
     Vector<Task> getTasksForToday() const;
-
 };

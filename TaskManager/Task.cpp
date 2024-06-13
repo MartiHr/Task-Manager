@@ -17,11 +17,11 @@ const MyString& Task::getName() const
 	return name;
 }
 
-std::time_t Task::getDueDate() const
+const std::time_t* Task::getDueDate() const
 {
 	if (dueDate.hasValue()) 
 	{
-		return dueDate.getValue();
+		return &(dueDate.getValue());
 	}
 	else 
 	{

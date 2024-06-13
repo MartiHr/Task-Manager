@@ -54,7 +54,7 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		}
 		else if (command == "delete-task")
 		{
-
+			handleDeleteTask(is);
 		}
 		else if (command == "get-task")
 		{
@@ -142,7 +142,7 @@ void TaskManager::handleLogout()
 
 Optional<std::time_t> parseDate(const MyString& dateStr)
 {
-	if (dateStr.getSize() == 0) 
+	if (dateStr.getSize() == 0)
 	{
 		return Optional<std::time_t>(); // Return empty optional if no date is provided
 	}
@@ -206,6 +206,7 @@ Task& TaskManager::findTask(int taskId)
 
 Task& TaskManager::findTask(const MyString& name)
 {
+	//find the first task with id with the provided name
 	for (int i = 0; i < tasks.getSize(); i++)
 	{
 		if (tasks[i].getName() == name)
@@ -235,13 +236,14 @@ void TaskManager::handleUpdateTaskName(std::istream& is)
 		std::cerr << e.what() << std::endl;
 		return;
 	}
-	
+
 }
 
 void TaskManager::handleStartTask(std::istream& is)
 {
 	int  id;
 	is >> id;
+
 	try
 	{
 		Task& taskToChange = findTask(id);
@@ -272,12 +274,28 @@ void TaskManager::handleUpdateTaskDescription(std::istream& is)
 		std::cerr << e.what() << std::endl;
 		return;
 	}
-	
+}
+
+void TaskManager::handleDeleteTask(std::istream& is)
+{
+	int id;
+	is >> id;
+
+	try
+	{
+		// assert exists done inside popAt function
+		tasks.popAt(id);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
 }
 
 void TaskManager::start(std::istream& is, const char* userDataFile)
 {
-	
+
 	// Ensure data file exists (needed for the first run)
 	bool fileExists = UserSerializer::ensureDataFileCreated(userDataFile);
 
@@ -288,6 +306,8 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 
 	// Get initial state
 	usersState = UserSerializer::readUsers(userDataFile);
+
+
 
 	MyString firstCommand;
 	is >> firstCommand;

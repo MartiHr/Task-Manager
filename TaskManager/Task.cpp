@@ -12,9 +12,14 @@ Task::Task(const MyString& name, const Optional<std::time_t>& dueDate,
 	: uid(getNextUid()), name(name), dueDate(dueDate),
 	status(status), description(description) {}
 
-MyString& Task::getName() const
+const MyString& Task::getName() const
 {
 	return name;
+}
+
+MyString& Task::getDueDate() const
+{
+
 }
 
 void Task::setName(const MyString& newName)

@@ -28,7 +28,8 @@ public:
 	Task(const MyString& name, const Optional<std::time_t>& dueDate,
 		Status status, const MyString& description);
 
-	MyString& getName() const;
+	const MyString& getName() const;
+	MyString& getDueDate() const;
 
 	void setName(const MyString& newName);
 	void setDescription(const MyString& newDescription);

@@ -2,14 +2,15 @@
 #include "User.h"
 #include "Vector.hpp"
 #include "Task.h"
+#include "Dashboard.h"
 
 // engine-like class
 class TaskManager
 {
 private:
-
 	static Vector<User> usersState;
 	static Vector<Task> tasks;
+	static Dashboard dashboard;
 
 	static bool loggedIn;
 
@@ -23,6 +24,11 @@ private:
 	static void handleUpdateTaskName(std::istream& is);
 	static void handleStartTask(std::istream& is);
 	static void handleUpdateTaskDescription(std::istream& is);
+
+	static void handleRemoveTaskFromDashboard(std::istream& is);
+	static void handleAddTaskFromDashboard(std::istream& is);
+	
+	static void handleDeleteTask(std::istream& is);
 public:
 	static void start(std::istream& is, const char* userDataFile);
 

@@ -19,6 +19,8 @@ public:
     // Add a single task
     void addTask(const Task& task);
 
+    void free();
+
     // Get tasks for today
     Vector<Task> getTasksForToday() const;
 };

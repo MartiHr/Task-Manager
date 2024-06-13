@@ -140,7 +140,8 @@ void TaskManager::handleLogin(std::istream& is)
 void TaskManager::handleLogout()
 {
 	loggedIn = false;
-
+	//TODO: vector may not work as intended here !!!
+	dashboard.free();
 	std::cout << "Logged out" << std::endl;
 }
 
@@ -222,6 +223,21 @@ Task& TaskManager::findTask(const MyString& name)
 	throw std::invalid_argument("Task does not exist");
 }
 
+Vector<Task> TaskManager::getUserTasks(const MyString& username)
+{
+	Vector<Task> currentUserTasks;
+
+	for (int i = 0; i < tasks.getSize(); i++)
+	{
+		if ()
+		{
+
+		}
+	}
+
+	return Vector<Task>();
+}
+
 void TaskManager::handleUpdateTaskName(std::istream& is)
 {
 	int  id;
@@ -299,7 +315,6 @@ void TaskManager::handleDeleteTask(std::istream& is)
 
 void TaskManager::start(std::istream& is, const char* userDataFile)
 {
-
 	// Ensure data file exists (needed for the first run)
 	bool fileExists = UserSerializer::ensureDataFileCreated(userDataFile);
 

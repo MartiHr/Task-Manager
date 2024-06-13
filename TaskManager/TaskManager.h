@@ -8,7 +8,7 @@
 class TaskManager
 {
 private:
-	// possibly extract in collection like class
+	// possibly extract in dictionary-like class (example Vector<Pair<User, Vector<Task>>>)
 	static Vector<User> usersState;
 	static Vector<Task> tasks;
 	
@@ -16,6 +16,7 @@ private:
 	// for the following two
 	static Dashboard dashboard;
 	static bool loggedIn;
+	static int currentUid;
 
 	static void handleCommands(MyString& command, std::istream& is, const char* userDataFile);
 	
@@ -38,6 +39,6 @@ public:
 private:
 	static Task& findTask(int taskId);
 	static Task& findTask(const MyString& name);
-	static Vector<Task> getUserTask(const MyString& username);
+	static Vector<Task> getUserTasks(const MyString& username);
 	static void setDashboardTasks(const MyString& username);
 };

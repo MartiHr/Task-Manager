@@ -18,6 +18,11 @@ void Dashboard::addTask(const Task& task)
 	}
 }
 
+void Dashboard::free()
+{
+	tasksForToday.clear();
+}
+
 Vector<Task> Dashboard::getTasksForToday() const
 {
 	return tasksForToday;

@@ -174,7 +174,7 @@ void TaskManager::handleAddTask(std::istream& is)
 
 	char descriptionBuffer[1024];
 	is.getline(descriptionBuffer, 1024);
-	MyString description(descriptionBuffer);
+	description = MyString(descriptionBuffer);
 
 	Optional<std::time_t> dueDate;
 

@@ -1,8 +1,9 @@
+#pragma warning(disable:4996)
 #include <iostream>
-
 #include "User.h"
 #include "UserSerializer.h"
 #include "TaskManager.h"
+#include "Dashboard.h"
 
 int main()
 {
@@ -19,8 +20,9 @@ int main()
 
 	//TaskManager::start(std::cin, "users.bin");
 
-	MyString str;
-	std::cin >> str;
+	/*MyString str;
+	std::cin >> str;*/
 
 	//Optional<std::time_t> time = 
+
 }

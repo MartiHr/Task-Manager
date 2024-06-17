@@ -5,7 +5,6 @@ template<typename T, typename D>
 class Pair {
 	T first;
 	D second;
-
 public:
 	Pair(const T& first, const D& second);
 	Pair(T&& first, D&& second);

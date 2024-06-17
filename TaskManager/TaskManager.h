@@ -14,7 +14,7 @@ private:
 	static Vector<Task> tasks;
 	// So as not to put additional fields in Task in order
 	// to copmly with the problem criteria
-	Vector<Pair<int, MyString>> taskToUserMap; // Mapping from task UID to username
+	static Vector<Pair<int, MyString>> tasksToUserMap; // Mapping from task UID to username
 
 	//TODO: extract in CurrentUserState class or something of the sort
 	// for the following two

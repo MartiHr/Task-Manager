@@ -2,8 +2,9 @@
 #pragma warning(disable : 4996)
 
 Dashboard::Dashboard()
-{;
-	today = std::time(nullptr); // Current time
+{
+	// Initialize 'today' with the current time
+	today = std::time(nullptr);
 }
 
 void Dashboard::setTasks(Vector<Task> tasks) {

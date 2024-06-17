@@ -9,6 +9,7 @@
 Vector<User> TaskManager::usersState;
 Vector<Task> TaskManager::tasks;
 Dashboard TaskManager::dashboard;
+Vector<Pair<int, MyString>> TaskManager::tasksToUserMap;
 
 bool TaskManager::loggedIn = false;
 

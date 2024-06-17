@@ -13,7 +13,7 @@ Task::Task(const MyString& name, const Optional<std::time_t>& dueDate,
 	status(status), description(description) {}
 
 const MyString& Task::getName() const
-{
+{	
 	return name;
 }
 

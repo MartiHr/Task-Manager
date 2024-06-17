@@ -3,15 +3,19 @@
 #include "Vector.hpp"
 #include "Task.h"
 #include "Dashboard.h"
+#include "Pair.hpp"
 
 // engine-like class
 class TaskManager
 {
 private:
-	// possibly extract in dictionary-like class (example Vector<Pair<User, Vector<Task>>>)
+	// possibly extract in dictionary-like class 
 	static Vector<User> usersState;
 	static Vector<Task> tasks;
-	
+	// So as not to put additional fields in Task in order
+	// to copmly with the problem criteria
+	Vector<Pair<int, MyString>> taskToUserMap; // Mapping from task UID to username
+
 	//TODO: extract in CurrentUserState class or something of the sort
 	// for the following two
 	static Dashboard dashboard;

@@ -140,6 +140,7 @@
     <ClInclude Include="ExceptionMessages.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="Optional.hpp" />
+    <ClInclude Include="Pair.hpp" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="User.h" />

@@ -4,6 +4,7 @@
 #include "Task.h"
 #include "Dashboard.h"
 #include "Pair.hpp"
+#include "TaskToUserMap.h"
 
 // engine-like class
 class TaskManager
@@ -14,7 +15,10 @@ private:
 	static Vector<Task> tasks;
 	// So as not to put additional fields in Task in order
 	// to copmly with the problem criteria
-	static Vector<Pair<int, MyString>> taskToUserMap; // Mapping from task UID to username
+	static TaskToUserMap taskToUserMap; // Mapping from task UID to username
+
+	// TODO: delete
+	//static Vector<Pair<int, MyString>> taskToUserMap; // Mapping from task UID to username
 
 	//TODO: extract in CurrentUserState class or something of the sort
 	// for the following two
@@ -43,7 +47,7 @@ public:
 private:
 	static Task& findTask(int taskId);
 	static Task& findTask(const MyString& name);
-	static Vector<Task> getUserTasks(const MyString& username);
+	//static Vector<Task> getUserTasks(const MyString& username);
 	static void setDashboardTasks(const MyString& username);
 
 

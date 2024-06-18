@@ -7,7 +7,6 @@ class TaskToUserMap
 private:
     Vector<int> taskUids;
     Vector<MyString> usernames;
-
 public:
     void addMapping(int taskUid, const MyString& username);
     void removeMapping(int taskUid, const MyString& username);

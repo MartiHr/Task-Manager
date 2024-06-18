@@ -10,7 +10,7 @@
 Vector<User> TaskManager::usersState;
 Vector<Task> TaskManager::tasks;
 Dashboard TaskManager::dashboard;
-Vector<Pair<int, MyString>> TaskManager::taskToUserMap;
+TaskToUserMap TaskManager::taskToUserMap;
 
 bool TaskManager::loggedIn = false;
 
@@ -204,11 +204,12 @@ void TaskManager::handleAddTask(std::istream& is)
 	// Set the owner of the task if any
 	if (loggedIn)
 	{
-		taskToUserMap.pushBack(Pair<int, MyString>(currentUid, name));
+		taskToUserMap.addMapping(currentUid, name);
 	}
 	else
 	{
-		taskToUserMap.pushBack(Pair<int, MyString>(currentUid, MyString("guest")));
+		// This behaviour could easily be changed
+		taskToUserMap.addMapping(currentUid, MyString("guest"));
 	}
 
 	std::cout << "Task added successfully." << std::endl;
@@ -238,21 +239,15 @@ Task& TaskManager::findTask(const MyString& name)
 	throw std::invalid_argument("Task does not exist");
 }
 
-Vector<Task> TaskManager::getUserTasks(const MyString& username)
-{
-	Vector<Task> currentUserTasks;
-
-	for (int i = 0; i < taskToUserMap.getSize(); i++)
-	{
-		if (taskToUserMap[i].getSecond() == username)
-		{
-			int taskUid = taskToUserMap[i].getFirst();
-			currentUserTasks.pushBack(findTask(taskUid));
-		}
-	}
-
-	return currentUserTasks;
-}
+// Possibly not needed
+//Vector<Task> TaskManager::getUserTasks(const MyString& username)
+//{
+//	Vector<Task> currentUserTasks;
+//
+//	taskToUserMap.getTasksForUser(username);
+//
+//	return currentUserTasks;
+//}
 
 void TaskManager::handleUpdateTaskName(std::istream& is)
 {

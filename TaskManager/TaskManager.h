@@ -10,7 +10,7 @@
 class TaskManager
 {
 private:
-	// TODO: create a class for the next three to contain them
+	// TODO: create a class for the next three to contain them	
 
 	// possibly extract in dictionary-like class 
 	static Vector<User> usersState;
@@ -38,9 +38,12 @@ private:
 	static void handleUpdateTaskName(std::istream& is);
 	static void handleStartTask(std::istream& is);
 	static void handleUpdateTaskDescription(std::istream& is);
+	static void handleFinishTask(std::istream& is);
 
 	static void handleRemoveTaskFromDashboard(std::istream& is);
 	static void handleAddTaskFromDashboard(std::istream& is);
+
+
 	
 	static void handleDeleteTask(std::istream& is);
 public:

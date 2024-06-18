@@ -71,6 +71,15 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		{
 
 		}
+		else if (command == "list-dashboard")
+		{
+
+		}
+		else if (command == "finish-task")
+		{
+			// check whether additional logic is needed for the funciton
+			handleFinishTask(is);
+		}
 		else if (command == "exit")
 		{
 			break;
@@ -299,6 +308,23 @@ void TaskManager::handleUpdateTaskDescription(std::istream& is)
 	{
 		Task& taskToChange = findTask(id);
 		taskToChange.setDescription(description);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
+}
+
+void TaskManager::handleFinishTask(std::istream& is)
+{
+	int id;
+	is >> id;
+	
+	try
+	{
+		Task& taskToChange = findTask(id);
+		taskToChange.setStatus(Status::DONE);
 	}
 	catch (const std::exception& e)
 	{

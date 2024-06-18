@@ -316,14 +316,7 @@ void TaskManager::handleDeleteTask(std::istream& is)
 	{
 		// assert exists done inside popAt function
 		tasks.popAt(id);
-
-		for (int i = 0; i < taskToUserMap.getSize(); i++)
-		{
-			if (true)
-			{
-
-			}
-		}
+		taskToUserMap.
 	}
 	catch (const std::exception& e)
 	{

@@ -10,6 +10,8 @@
 class TaskManager
 {
 private:
+	// TODO: create a class for the next three to contain them
+
 	// possibly extract in dictionary-like class 
 	static Vector<User> usersState;
 	static Vector<Task> tasks;

@@ -9,6 +9,7 @@ private:
     Vector<MyString> usernames;
 public:
     void addMapping(int taskUid, const MyString& username);
+    void removeMappingByTaskId(int taskUid);
     void removeMapping(int taskUid, const MyString& username);
     Vector<int> getTasksForUser(const MyString& username) const;
     Vector<MyString> getUsersForTask(int taskUid) const;

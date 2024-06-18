@@ -6,6 +6,24 @@ void TaskToUserMap::addMapping(int taskUid, const MyString& username)
     usernames.pushBack(username);
 }
 
+void TaskToUserMap::removeMappingByTaskId(int taskUid)
+{
+    Vector<int> newTaskUids;
+    Vector<MyString> newUsernames;
+
+    for (size_t i = 0; i < taskUids.getSize(); ++i)
+    {
+        if (taskUids[i] != taskUid)
+        {
+            newTaskUids.pushBack(taskUids[i]);
+            newUsernames.pushBack(usernames[i]);
+        }
+    }
+
+    taskUids = newTaskUids;
+    usernames = newUsernames;
+}
+
 void TaskToUserMap::removeMapping(int taskUid, const MyString& username)
 {
     Vector<int> newTaskUids;

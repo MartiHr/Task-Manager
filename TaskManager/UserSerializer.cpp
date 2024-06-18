@@ -83,7 +83,6 @@ Vector<User> UserSerializer::readUsers(const char* fileName)
 			std::cerr << "Error reading user: " << e.what() << std::endl;
 			break;
 		}
-
 	}
 	
 	file.close();

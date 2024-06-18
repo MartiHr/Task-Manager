@@ -7,7 +7,8 @@ Dashboard::Dashboard()
 	today = std::time(nullptr);
 }
 
-void Dashboard::setTasks(Vector<Task> tasks) {
+void Dashboard::setTasks(Vector<Task> tasks) 
+{
 	tasksForToday = tasks;
 }
 

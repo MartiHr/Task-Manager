@@ -25,4 +25,23 @@ int main()
 
 	//Optional<std::time_t> time = 
 
+	/*Vector<int> arr;
+	arr.pushBack(1);
+	arr.pushBack(2);
+	arr.pushBack(3);
+	arr.pushBack(4);
+	arr.pushBack(5);
+
+	for (int i = 0; i < arr.getSize(); i++)
+	{
+		if (i == 3)
+		{
+			arr.popAt(i);
+		}
+	}
+
+	for (int i = 0; i < arr.getSize(); i++)
+	{
+		std::cout << arr[i] << std::endl;
+	}*/
 }

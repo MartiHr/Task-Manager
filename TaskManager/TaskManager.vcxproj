@@ -132,6 +132,7 @@
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TaskToUserMap.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="UserSerializer.cpp" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="Pair.hpp" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskManager.h" />
+    <ClInclude Include="TaskToUserMap.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="UserSerializer.h" />
     <ClInclude Include="Vector.hpp" />

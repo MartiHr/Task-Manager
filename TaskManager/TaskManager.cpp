@@ -5,11 +5,12 @@
 #include "TaskManager.h"
 #include "MyString.h"
 #include "UserSerializer.h"
+#include "Pair.hpp"
 
 Vector<User> TaskManager::usersState;
 Vector<Task> TaskManager::tasks;
 Dashboard TaskManager::dashboard;
-Vector<Pair<int, MyString>> TaskManager::tasksToUserMap;
+Vector<Pair<int, MyString>> TaskManager::taskToUserMap;
 
 bool TaskManager::loggedIn = false;
 
@@ -127,7 +128,9 @@ void TaskManager::handleLogin(std::istream& is)
 		{
 			std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
 			loggedIn = true;
-			dashboard.setTasks(loginUsername);
+
+			// load the dashboard of the user
+			//dashboard.setTasks(loginUsername);
 
 			break;
 		}
@@ -197,6 +200,17 @@ void TaskManager::handleAddTask(std::istream& is)
 	}
 
 	tasks.pushBack(Task(name, dueDate, Status::ON_HOLD, description));
+
+	// Set the owner of the task if any
+	if (loggedIn)
+	{
+		taskToUserMap.pushBack(Pair<int, MyString>(currentUid, name));
+	}
+	else
+	{
+		taskToUserMap.pushBack(Pair<int, MyString>(currentUid, MyString("guest")));
+	}
+
 	std::cout << "Task added successfully." << std::endl;
 }
 
@@ -228,15 +242,16 @@ Vector<Task> TaskManager::getUserTasks(const MyString& username)
 {
 	Vector<Task> currentUserTasks;
 
-	for (int i = 0; i < tasks.getSize(); i++)
+	for (int i = 0; i < taskToUserMap.getSize(); i++)
 	{
-		if ()
+		if (taskToUserMap[i].getSecond() == username)
 		{
-
+			int taskUid = taskToUserMap[i].getFirst();
+			currentUserTasks.pushBack(findTask(taskUid));
 		}
 	}
 
-	return Vector<Task>();
+	return currentUserTasks;
 }
 
 void TaskManager::handleUpdateTaskName(std::istream& is)
@@ -279,7 +294,7 @@ void TaskManager::handleStartTask(std::istream& is)
 
 void TaskManager::handleUpdateTaskDescription(std::istream& is)
 {
-	int  id;
+	int id;
 	MyString description;
 
 	is >> id;
@@ -306,6 +321,14 @@ void TaskManager::handleDeleteTask(std::istream& is)
 	{
 		// assert exists done inside popAt function
 		tasks.popAt(id);
+
+		for (int i = 0; i < taskToUserMap.getSize(); i++)
+		{
+			if (true)
+			{
+
+			}
+		}
 	}
 	catch (const std::exception& e)
 	{

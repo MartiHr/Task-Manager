@@ -9,7 +9,7 @@ void TaskToUserMap::addMapping(int taskUid, const MyString& username)
 void TaskToUserMap::removeMapping(int taskUid, const MyString& username)
 {
     Vector<int> newTaskUids;
-    Vector<std::string> newUsernames;
+    Vector<MyString> newUsernames;
 
     for (size_t i = 0; i < taskUids.getSize(); ++i) 
     {
@@ -39,9 +39,9 @@ Vector<int> TaskToUserMap::getTasksForUser(const MyString& username) const
     return tasksForUser;
 }
 
-Vector<std::string> TaskToUserMap::getUsersForTask(int taskUid) const
+Vector<MyString> TaskToUserMap::getUsersForTask(int taskUid) const
 {
-    Vector<std::string> usersForTask;
+    Vector<MyString> usersForTask;
 
     for (size_t i = 0; i < taskUids.getSize(); ++i)
     {
@@ -57,7 +57,7 @@ Vector<std::string> TaskToUserMap::getUsersForTask(int taskUid) const
 void TaskToUserMap::clearMappingsForUser(const MyString& username)
 {
     Vector<int> newTaskUids;
-    Vector<std::string> newUsernames;
+    Vector<MyString> newUsernames;
 
     for (size_t i = 0; i < taskUids.getSize(); ++i) 
     {

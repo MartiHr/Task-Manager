@@ -39,12 +39,11 @@ private:
 	static void handleStartTask(std::istream& is);
 	static void handleUpdateTaskDescription(std::istream& is);
 	static void handleFinishTask(std::istream& is);
+	static void handleListCompletedTasks();
 
 	static void handleRemoveTaskFromDashboard(std::istream& is);
 	static void handleAddTaskFromDashboard(std::istream& is);
 
-
-	
 	static void handleDeleteTask(std::istream& is);
 public:
 	static void start(std::istream& is, const char* userDataFile);

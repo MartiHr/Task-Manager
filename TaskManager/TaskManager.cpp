@@ -61,15 +61,15 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		}
 		else if (command == "get-task")
 		{
-
+			// two inside one
 		}
 		else if (command == "list-tasks")
 		{
-
+			// two inside one
 		}
 		else if (command == "list-completed-tasks")
 		{
-
+			handleListCompletedTasks();
 		}
 		else if (command == "list-dashboard")
 		{
@@ -320,7 +320,7 @@ void TaskManager::handleFinishTask(std::istream& is)
 {
 	int id;
 	is >> id;
-	
+
 	try
 	{
 		Task& taskToChange = findTask(id);
@@ -331,6 +331,62 @@ void TaskManager::handleFinishTask(std::istream& is)
 		std::cerr << e.what() << std::endl;
 		return;
 	}
+}
+
+
+void printDueDate(const std::time_t* dueDate)
+{
+	if (dueDate == nullptr)
+	{
+		std::cout << "Due date not set." << std::endl;
+		return;
+	}
+
+	char buffer[100];
+	std::tm* timeInfo;
+
+	// Convert time_t to tm structure
+	timeInfo = std::localtime(dueDate);
+
+	// Format the date and time into the buffer
+	std::strftime(buffer, sizeof(buffer), "Due date : %a %b %d %H : %M : %S %Y", timeInfo);
+
+	// Print the formatted date and time
+	std::cout << buffer << std::endl;
+}
+
+const char* statusToString(Status status)
+{
+	switch (status)
+	{
+	case Status::ON_HOLD: return "ON_HOLD";
+	case Status::IN_PROCESS: return "IN_PROCESS";
+	case Status::DONE: return "DONE";
+	case Status::OVERDUE: return "OVERDUE";
+	default: return "UNKNOWN";
+	}
+}
+
+void TaskManager::handleListCompletedTasks()
+{
+	//  Task name : Group_project
+	//	Task ID : 1287
+	//	Due date : Fri Mar 15 00 : 00 : 00 2024
+	//	Task desc : example desc
+	//	Status : ON HOLD
+
+	for (int i = 0; i < tasks.getSize(); i++)
+	{
+		Task& current = tasks[i];
+		std::cout << "Task name : " << current.getName() << std::endl;
+		std::cout << "Task ID : " << current.getId() << std::endl;
+		printDueDate(current.getDueDate());
+		std::cout << "Task desc : " << current.getDescription() << std::endl;
+		std::cout << "Status : " << statusToString(current.getStatus()) << std::endl;
+
+		std::cout << std::endl;
+	}
+
 }
 
 void TaskManager::handleDeleteTask(std::istream& is)

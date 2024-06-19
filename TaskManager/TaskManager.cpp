@@ -61,11 +61,11 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		}
 		else if (command == "get-task")
 		{
-			// two inside one
+			handleGetTask(is);
 		}
 		else if (command == "list-tasks")
 		{
-			handleGetTask(is);
+			handleListTasks(is);
 		}
 		else if (command == "list-completed-tasks")
 		{
@@ -208,17 +208,19 @@ void TaskManager::handleAddTask(std::istream& is)
 		}
 	}
 
-	tasks.pushBack(Task(name, dueDate, Status::ON_HOLD, description));
+	Task task(name, dueDate, Status::ON_HOLD, description);
+	tasks.pushBack(task);
 
+	int taskId = task.getId();
 	// Set the owner of the task if any
 	if (loggedIn)
 	{
-		taskToUserMap.addMapping(currentUid, name);
+		taskToUserMap.addMapping(taskId, currentUser);
 	}
 	else
 	{
 		// This behaviour could easily be changed
-		taskToUserMap.addMapping(currentUid, MyString("guest"));
+		taskToUserMap.addMapping(taskId, MyString("guest"));
 	}
 
 	std::cout << "Task added successfully." << std::endl;
@@ -246,6 +248,14 @@ Task& TaskManager::findTask(const MyString& name)
 	}
 
 	throw std::invalid_argument("Task does not exist");
+}
+
+void TaskManager::listTasksByDate(const MyString& date)
+{
+}
+
+void TaskManager::listAllTasks()
+{
 }
 
 // Possibly not needed
@@ -353,6 +363,29 @@ void TaskManager::handleGetTask(std::istream& is)
 	}
 }
 
+void TaskManager::handleListTasks(std::istream& is)
+{
+	MyString argument;
+
+	if (is >> argument)
+	{
+		if (isDate(argument.c_str()))
+		{
+			// Argument is a date
+			listTasksByDate(argument);
+		}
+		else
+		{
+			std::cerr << "Invalid date format. Expected format: YYYY-MM-DD" << std::endl;
+		}
+	}
+	else
+	{
+		// No argument provided
+		listAllTasks();
+	}
+}
+
 void TaskManager::handleFinishTask(std::istream& is)
 {
 	int id;
@@ -447,7 +480,7 @@ void TaskManager::handleDeleteTask(std::istream& is)
 	{
 		// assert exists done inside popAt function
 		tasks.popAt(id);
-		taskToUserMap.
+		taskToUserMap.removeMappingByTaskId(id);
 	}
 	catch (const std::exception& e)
 	{

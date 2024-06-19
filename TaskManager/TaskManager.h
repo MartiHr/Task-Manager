@@ -26,7 +26,7 @@ private:
 	// for the following two
 	static Dashboard dashboard;
 	static bool loggedIn;
-	static int currentUid;
+	static MyString currentUser;
 
 	static void handleCommands(MyString& command, std::istream& is, const char* userDataFile);
 	
@@ -56,5 +56,6 @@ private:
 	//static Vector<Task> getUserTasks(const MyString& username);
 	static void setDashboardTasks(const MyString& username);
 
-
+	void listTasksByDate(const MyString& date);
+	void listAllTasks();
 };

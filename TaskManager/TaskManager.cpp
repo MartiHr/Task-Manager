@@ -252,7 +252,43 @@ Task& TaskManager::findTask(const MyString& name)
 
 void TaskManager::listTasksByDate(const MyString& date)
 {
+	std::tm tm = {};
+	std::istringstream ss(date.c_str());
+	ss >> std::get_time(&tm, "%Y-%m-%d");
 
+	if (ss.fail())
+	{
+		std::cerr << "Invalid date format. Use YYYY-MM-DD." << std::endl;
+		return;
+	}
+
+	std::time_t targetDate = std::mktime(&tm);
+	if (targetDate == -1)
+	{
+		std::cerr << "Failed to convert date." << std::endl;
+		return;
+	}
+
+	std::tm* targetTm = std::localtime(&targetDate);
+
+	for (int i = 0; i < tasks.getSize(); i++)
+	{
+		Task& current = tasks[i];
+		const std::time_t* dueDatePtr = current.getDueDate();
+
+		if (dueDatePtr != nullptr)
+		{
+			std::tm* dueDateTm = std::localtime(dueDatePtr);
+
+			if (dueDateTm->tm_year == targetTm->tm_year &&
+				dueDateTm->tm_mon == targetTm->tm_mon &&
+				dueDateTm->tm_mday == targetTm->tm_mday)
+			{
+				printTask(current);
+				std::cout << std::endl;
+			}
+		}
+	}
 }
 
 void TaskManager::listAllTasks()
@@ -508,7 +544,6 @@ void TaskManager::handleListCompletedTasks()
 		//std::cout << "Task desc : " << current.getDescription() << std::endl;
 		//std::cout << "Status : " << statusToString(current.getStatus()) << std::endl;
 	}
-
 }
 
 void TaskManager::handleDeleteTask(std::istream& is)

@@ -367,6 +367,16 @@ const char* statusToString(Status status)
 	}
 }
 
+
+void printTask(const Task& task)
+{
+	std::cout << "Task name : " << task.getName() << std::endl;
+	std::cout << "Task ID : " << task.getId() << std::endl;
+	printDueDate(task.getDueDate());
+	std::cout << "Task desc : " << task.getDescription() << std::endl;
+	std::cout << "Status : " << statusToString(task.getStatus()) << std::endl;
+}
+
 void TaskManager::handleListCompletedTasks()
 {
 	//  Task name : Group_project
@@ -374,17 +384,19 @@ void TaskManager::handleListCompletedTasks()
 	//	Due date : Fri Mar 15 00 : 00 : 00 2024
 	//	Task desc : example desc
 	//	Status : ON HOLD
-
+	
 	for (int i = 0; i < tasks.getSize(); i++)
 	{
+		// TODO: extract into a function for printing a task to reuse
 		Task& current = tasks[i];
-		std::cout << "Task name : " << current.getName() << std::endl;
-		std::cout << "Task ID : " << current.getId() << std::endl;
-		printDueDate(current.getDueDate());
-		std::cout << "Task desc : " << current.getDescription() << std::endl;
-		std::cout << "Status : " << statusToString(current.getStatus()) << std::endl;
-
+		printTask(current);
 		std::cout << std::endl;
+
+		//std::cout << "Task name : " << current.getName() << std::endl;
+		//std::cout << "Task ID : " << current.getId() << std::endl;
+		//printDueDate(current.getDueDate());
+		//std::cout << "Task desc : " << current.getDescription() << std::endl;
+		//std::cout << "Status : " << statusToString(current.getStatus()) << std::endl;
 	}
 
 }

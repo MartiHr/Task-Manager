@@ -56,6 +56,6 @@ private:
 	//static Vector<Task> getUserTasks(const MyString& username);
 	static void setDashboardTasks(const MyString& username);
 
-	void listTasksByDate(const MyString& date);
-	void listAllTasks();
+	static void listTasksByDate(const MyString& date);
+	static void listAllTasks();
 };

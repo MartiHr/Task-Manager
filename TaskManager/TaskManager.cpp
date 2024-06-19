@@ -252,10 +252,18 @@ Task& TaskManager::findTask(const MyString& name)
 
 void TaskManager::listTasksByDate(const MyString& date)
 {
+
 }
 
 void TaskManager::listAllTasks()
 {
+	for (int i = 0; i < tasks.getSize(); i++)
+	{
+		// TODO: extract into a function for printing a task to reuse
+		Task& current = tasks[i];
+		printTask(current);
+		std::cout << std::endl;
+	}
 }
 
 // Possibly not needed
@@ -363,6 +371,35 @@ void TaskManager::handleGetTask(std::istream& is)
 	}
 }
 
+bool isDate(const char* s)
+{
+	// Simple check: we assume the date is in the format "YYYY-MM-DD"
+	if (strlen(s) != 10)
+	{
+		return false;
+	}
+
+	if (s[4] != '-' || s[7] != '-')
+	{
+		return false;
+	}
+
+	for (int i = 0; i < 10; ++i)
+	{
+		if (i == 4 || i == 7)
+		{
+			continue;
+		}
+
+		if (!isdigit(s[i]))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void TaskManager::handleListTasks(std::istream& is)
 {
 	MyString argument;
@@ -459,8 +496,11 @@ void TaskManager::handleListCompletedTasks()
 	{
 		// TODO: extract into a function for printing a task to reuse
 		Task& current = tasks[i];
-		printTask(current);
-		std::cout << std::endl;
+		if (current.getStatus() == Status::DONE)
+		{
+			printTask(current);
+			std::cout << std::endl;
+		}
 
 		//std::cout << "Task name : " << current.getName() << std::endl;
 		//std::cout << "Task ID : " << current.getId() << std::endl;

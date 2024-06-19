@@ -65,7 +65,7 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 		}
 		else if (command == "list-tasks")
 		{
-			// two inside one
+			handleGetTask(is);
 		}
 		else if (command == "list-completed-tasks")
 		{
@@ -316,6 +316,43 @@ void TaskManager::handleUpdateTaskDescription(std::istream& is)
 	}
 }
 
+// TODO: extract in class like utils 
+bool isNumber(const char* s)
+{
+	while (*s)
+	{
+		if (!std::isdigit(*s))
+		{
+			return false;
+		}
+
+		s++;
+	}
+	return true;
+}
+
+void TaskManager::handleGetTask(std::istream& is)
+{
+	MyString username;
+	MyString argument;
+
+	is >> username;
+	is >> argument;
+
+	if (isNumber(argument.c_str()))
+	{
+		int id = std::atoi(argument.c_str());
+		Task& task = findTask(id);
+		printTask(task);
+	}
+	else
+	{
+		MyString& name = argument;
+		Task& task = findTask(name);
+		printTask(task);
+	}
+}
+
 void TaskManager::handleFinishTask(std::istream& is)
 {
 	int id;
@@ -384,7 +421,7 @@ void TaskManager::handleListCompletedTasks()
 	//	Due date : Fri Mar 15 00 : 00 : 00 2024
 	//	Task desc : example desc
 	//	Status : ON HOLD
-	
+
 	for (int i = 0; i < tasks.getSize(); i++)
 	{
 		// TODO: extract into a function for printing a task to reuse

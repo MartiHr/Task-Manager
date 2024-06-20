@@ -1,5 +1,6 @@
 #pragma warning(disable:4996)
 #include <iostream>
+#include <fstream>
 #include "User.h"
 #include "UserSerializer.h"
 #include "TaskManager.h"
@@ -46,4 +47,5 @@ int main()
 	}*/
 
 	TaskManager::start(std::cin, "users.bin");
+
 }

@@ -145,10 +145,12 @@ void TaskManager::handleLogin(std::istream& is)
 			//dashboard.setTasks()
 			break;
 		}
-		else
-		{
-			std::cout << "Wrong credentials." << std::endl;
-		}
+	}
+
+	if (!currentUserState.loggedIn)
+	{
+		std::cout << "Wrong credentials." << std::endl;
+
 	}
 }
 
@@ -325,6 +327,17 @@ void TaskManager::printDueDate(const std::time_t* dueDate)
 	std::cout << buffer << std::endl;
 }
 
+const char* TaskManager::statusToString(Status status)
+{
+	switch (status)
+	{
+	case Status::ON_HOLD: return "ON_HOLD";
+	case Status::IN_PROCESS: return "IN_PROCESS";
+	case Status::DONE: return "DONE";
+	case Status::OVERDUE: return "OVERDUE";
+	default: return "UNKNOWN";
+	}
+}
 
 void TaskManager::printTask(const Task& task)
 {
@@ -509,47 +522,36 @@ void TaskManager::handleFinishTask(std::istream& is)
 	}
 }
 
-void printDueDate(const std::time_t* dueDate)
-{
-	if (dueDate == nullptr)
-	{
-		std::cout << "Due date not set." << std::endl;
-		return;
-	}
+//
+//void printDueDate(const std::time_t* dueDate)
+//{
+//	if (dueDate == nullptr)
+//	{
+//		std::cout << "Due date not set." << std::endl;
+//		return;
+//	}
+//
+//	char buffer[100];
+//	std::tm* timeInfo;
+//
+//	// Convert time_t to tm structure
+//	timeInfo = std::localtime(dueDate);
+//
+//	// Format the date and time into the buffer
+//	std::strftime(buffer, sizeof(buffer), "Due date : %a %b %d %H : %M : %S %Y", timeInfo);
+//
+//	// Print the formatted date and time
+//	std::cout << buffer << std::endl;
+//}
 
-	char buffer[100];
-	std::tm* timeInfo;
-
-	// Convert time_t to tm structure
-	timeInfo = std::localtime(dueDate);
-
-	// Format the date and time into the buffer
-	std::strftime(buffer, sizeof(buffer), "Due date : %a %b %d %H : %M : %S %Y", timeInfo);
-
-	// Print the formatted date and time
-	std::cout << buffer << std::endl;
-}
-
-const char* statusToString(Status status)
-{
-	switch (status)
-	{
-	case Status::ON_HOLD: return "ON_HOLD";
-	case Status::IN_PROCESS: return "IN_PROCESS";
-	case Status::DONE: return "DONE";
-	case Status::OVERDUE: return "OVERDUE";
-	default: return "UNKNOWN";
-	}
-}
-
-void printTask(const Task& task)
-{
-	std::cout << "Task name : " << task.getName() << std::endl;
-	std::cout << "Task ID : " << task.getId() << std::endl;
-	printDueDate(task.getDueDate());
-	std::cout << "Task desc : " << task.getDescription() << std::endl;
-	std::cout << "Status : " << statusToString(task.getStatus()) << std::endl;
-}
+//void printTask(const Task& task)
+//{
+//	std::cout << "Task name : " << task.getName() << std::endl;
+//	std::cout << "Task ID : " << task.getId() << std::endl;
+//	printDueDate(task.getDueDate());
+//	std::cout << "Task desc : " << task.getDescription() << std::endl;
+//	std::cout << "Status : " << statusToString(task.getStatus()) << std::endl;
+//}
 
 void TaskManager::handleListCompletedTasks()
 {
@@ -561,19 +563,12 @@ void TaskManager::handleListCompletedTasks()
 
 	for (int i = 0; i < tasks.getSize(); i++)
 	{
-		// TODO: extract into a function for printing a task to reuse
 		Task& current = tasks[i];
 		if (current.getStatus() == Status::DONE)
 		{
 			printTask(current);
 			std::cout << std::endl;
 		}
-
-		//std::cout << "Task name : " << current.getName() << std::endl;
-		//std::cout << "Task ID : " << current.getId() << std::endl;
-		//printDueDate(current.getDueDate());
-		//std::cout << "Task desc : " << current.getDescription() << std::endl;
-		//std::cout << "Status : " << statusToString(current.getStatus()) << std::endl;
 	}
 }
 

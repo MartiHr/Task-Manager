@@ -57,9 +57,9 @@ private:
 	static void listTasksByDate(const MyString& date);
 	static void listAllTasks();
 
+	// TODO: extract in utils class
 	static void printDueDate(const std::time_t* dueDate);
 	static const char* statusToString(Status status);
-
 	static void printTask(const Task& task);
 
 };

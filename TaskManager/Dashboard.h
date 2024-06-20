@@ -7,7 +7,6 @@ class Dashboard
 {
 private:
 	Vector<Task> tasksForToday;
-
 	std::time_t today;
 
     bool isTaskDueToday(const Task& task);

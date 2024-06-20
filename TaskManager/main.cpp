@@ -44,4 +44,6 @@ int main()
 	{
 		std::cout << arr[i] << std::endl;
 	}*/
+
+	TaskManager::start(std::cin, "users.bin");
 }

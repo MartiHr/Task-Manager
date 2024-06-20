@@ -1,3 +1,4 @@
+#pragma warning(disable : 4996)
 #include <ctime>
 #include <iomanip>
 #include <iostream>
@@ -9,7 +10,7 @@
 
 Vector<User> TaskManager::usersState;
 Vector<Task> TaskManager::tasks;
-Dashboard TaskManager::dashboard;
+Vector<Dashboard> TaskManager::dashboards;
 TaskToUserMap TaskManager::taskToUserMap;
 
 bool TaskManager::loggedIn = false;
@@ -140,7 +141,7 @@ void TaskManager::handleLogin(std::istream& is)
 
 			// load the dashboard of the user
 			//dashboard.setTasks(loginUsername);
-			dashboard.setTasks()
+			//dashboard.setTasks()
 			break;
 		}
 		else
@@ -154,7 +155,7 @@ void TaskManager::handleLogout()
 {
 	loggedIn = false;
 	//TODO: vector may not work as intended here !!!
-	dashboard.free();
+	//dashboard.free();
 	std::cout << "Logged out" << std::endl;
 }
 
@@ -291,15 +292,24 @@ void TaskManager::listTasksByDate(const MyString& date)
 	}
 }
 
-void TaskManager::listAllTasks()
+//void TaskManager::listAllTasks()
+//{
+//	for (int i = 0; i < tasks.getSize(); i++)
+//	{
+//		// TODO: extract into a function for printing a task to reuse
+//		Task& current = tasks[i];
+//		printTask(current);
+//		std::cout << std::endl;
+//	}
+//}
+
+void TaskManager::printTask(const Task& task) const
 {
-	for (int i = 0; i < tasks.getSize(); i++)
-	{
-		// TODO: extract into a function for printing a task to reuse
-		Task& current = tasks[i];
-		printTask(current);
-		std::cout << std::endl;
-	}
+	std::cout << "Task name : " << task.getName() << std::endl;
+	std::cout << "Task ID : " << task.getId() << std::endl;
+	printDueDate(task.getDueDate());
+	std::cout << "Task desc : " << task.getDescription() << std::endl;
+	std::cout << "Status : " << statusToString(task.getStatus()) << std::endl;
 }
 
 // Possibly not needed
@@ -509,7 +519,6 @@ const char* statusToString(Status status)
 	default: return "UNKNOWN";
 	}
 }
-
 
 void printTask(const Task& task)
 {

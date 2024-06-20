@@ -15,6 +15,8 @@ private:
 	// possibly extract in dictionary-like class 
 	static Vector<User> usersState;
 	static Vector<Task> tasks;
+	static Vector<Dashboard> dashboards;
+
 	// So as not to put additional fields in Task in order
 	// to copmly with the problem criteria
 	static TaskToUserMap taskToUserMap; // Mapping from task UID to username
@@ -24,8 +26,8 @@ private:
 
 	//TODO: extract in CurrentUserState class or something of the sort
 	// for the following two
-	static Dashboard dashboard;
 	static bool loggedIn;
+	static int currentDashboard;
 	static MyString currentUser;
 
 	static void handleCommands(MyString& command, std::istream& is, const char* userDataFile);
@@ -58,4 +60,6 @@ private:
 
 	static void listTasksByDate(const MyString& date);
 	static void listAllTasks();
+
+	void printTask(const Task& task) const;
 };

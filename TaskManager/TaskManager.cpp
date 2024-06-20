@@ -16,9 +16,87 @@ TaskToUserMap TaskManager::taskToUserMap;
 //bool TaskManager::loggedIn = false;
 CurrentUserState TaskManager::currentUserState;
 
-void TaskManager::handleCommands(MyString& command, std::istream& is, const char* userDataFile)
+void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 {
-	// TODO: extract string elsewhere
+	MyString command;
+
+	// TODO: extract strings elsewhere
+	while (true)
+	{
+		std::cout << '>';
+		is >> command;
+		
+		if (command == "register")
+		{
+			handleRegister(is, userDataFile);
+		}
+		else if (command == "login")
+		{
+			handleLogin(is);
+		}
+		else if (command == "logout")
+		{
+			handleLogout();
+		}
+		else if (command == "add-task")
+		{
+			handleAddTask(is);
+		}
+		else if (command == "update-task-name")
+		{
+			handleUpdateTaskName(is);
+		}
+		else if (command == "start-task")
+		{
+			handleStartTask(is);
+		}
+		else if (command == "update-task-description")
+		{
+			handleUpdateTaskDescription(is);
+		}
+		else if (command == "remove-task-from-dashboard")
+		{
+
+		}
+		else if (command == "add-task-to-dashboard")
+		{
+
+		}
+		else if (command == "delete-task")
+		{
+			handleDeleteTask(is);
+		}
+		else if (command == "get-task")
+		{
+			handleGetTask(is);
+		}
+		else if (command == "list-tasks")
+		{
+			handleListTasks(is);
+		}
+		else if (command == "list-completed-tasks")
+		{
+			handleListCompletedTasks();
+		}
+		else if (command == "list-dashboard")
+		{
+
+		}
+		else if (command == "finish-task")
+		{
+			// check whether additional logic is needed for the funciton
+			handleFinishTask(is);
+		}
+		else if (command == "exit")
+		{
+			break;
+		}
+		else
+		{
+			std::cout << "No such command." << std::endl;
+		}
+	}
+
 	while (command != "exit")
 	{
 		if (command == "register")
@@ -603,8 +681,6 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 	// Get initial state
 	usersState = UserSerializer::readUsers(userDataFile);
 
-	MyString firstCommand;
-	is >> firstCommand;
-	handleCommands(firstCommand, is, userDataFile);
+	handleCommands(is, userDataFile);
 }
 

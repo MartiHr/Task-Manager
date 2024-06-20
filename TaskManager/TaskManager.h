@@ -27,7 +27,7 @@ private:
 	//static int currentDashboard;
 	//static MyString currentUser;
 
-	static void handleCommands(MyString& command, std::istream& is, const char* userDataFile);
+	static void handleCommands(std::istream& is, const char* userDataFile);
 	
 	static void handleRegister(std::istream& is, const char* userDataFile);
 	static void handleLogin(std::istream& is);

@@ -13,7 +13,8 @@ Vector<Task> TaskManager::tasks;
 Vector<Dashboard> TaskManager::dashboards;
 TaskToUserMap TaskManager::taskToUserMap;
 
-bool TaskManager::loggedIn = false;
+//bool TaskManager::loggedIn = false;
+CurrentUserState TaskManager::currentUserState;
 
 void TaskManager::handleCommands(MyString& command, std::istream& is, const char* userDataFile)
 {
@@ -96,7 +97,7 @@ void TaskManager::handleCommands(MyString& command, std::istream& is, const char
 
 void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 {
-	if (loggedIn)
+	if (currentUserState.loggedIn)
 	{
 		std::cout << "Already logged in" << std::endl;
 		return;
@@ -120,7 +121,7 @@ void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 
 void TaskManager::handleLogin(std::istream& is)
 {
-	if (loggedIn)
+	if (currentUserState.loggedIn)
 	{
 		std::cout << "Already logged in" << std::endl;
 		return;
@@ -137,7 +138,7 @@ void TaskManager::handleLogin(std::istream& is)
 		if (usersState[i].username == loginUsername && usersState[i].password == loginPassword)
 		{
 			std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
-			loggedIn = true;
+			currentUserState.loggedIn = true;
 
 			// load the dashboard of the user
 			//dashboard.setTasks(loginUsername);
@@ -153,7 +154,7 @@ void TaskManager::handleLogin(std::istream& is)
 
 void TaskManager::handleLogout()
 {
-	loggedIn = false;
+	currentUserState.loggedIn = false;
 	//TODO: vector may not work as intended here !!!
 	//dashboard.free();
 	std::cout << "Logged out" << std::endl;
@@ -214,9 +215,9 @@ void TaskManager::handleAddTask(std::istream& is)
 
 	int taskId = task.getId();
 	// Set the owner of the task if any
-	if (loggedIn)
+	if (currentUserState.loggedIn)
 	{
-		taskToUserMap.addMapping(taskId, currentUser);
+		taskToUserMap.addMapping(taskId, currentUserState.currentUser);
 	}
 	else
 	{
@@ -292,18 +293,40 @@ void TaskManager::listTasksByDate(const MyString& date)
 	}
 }
 
-//void TaskManager::listAllTasks()
-//{
-//	for (int i = 0; i < tasks.getSize(); i++)
-//	{
-//		// TODO: extract into a function for printing a task to reuse
-//		Task& current = tasks[i];
-//		printTask(current);
-//		std::cout << std::endl;
-//	}
-//}
+void TaskManager::listAllTasks()
+{
+	for (int i = 0; i < tasks.getSize(); i++)
+	{
+		// TODO: extract into a function for printing a task to reuse
+		Task& current = tasks[i];
+		printTask(current);
+		std::cout << std::endl;
+	}
+}
 
-void TaskManager::printTask(const Task& task) const
+void TaskManager::printDueDate(const std::time_t* dueDate)
+{
+	if (dueDate == nullptr)
+	{
+		std::cout << "Due date not set." << std::endl;
+		return;
+	}
+
+	char buffer[100];
+	std::tm* timeInfo;
+
+	// Convert time_t to tm structure
+	timeInfo = std::localtime(dueDate);
+
+	// Format the date and time into the buffer
+	std::strftime(buffer, sizeof(buffer), "Due date : %a %b %d %H : %M : %S %Y", timeInfo);
+
+	// Print the formatted date and time
+	std::cout << buffer << std::endl;
+}
+
+
+void TaskManager::printTask(const Task& task)
 {
 	std::cout << "Task name : " << task.getName() << std::endl;
 	std::cout << "Task ID : " << task.getId() << std::endl;
@@ -485,7 +508,6 @@ void TaskManager::handleFinishTask(std::istream& is)
 		return;
 	}
 }
-
 
 void printDueDate(const std::time_t* dueDate)
 {

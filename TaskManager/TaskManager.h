@@ -5,13 +5,12 @@
 #include "Dashboard.h"
 #include "Pair.hpp"
 #include "TaskToUserMap.h"
+#include "CurrentUserState .h"
 
 // engine-like class
 class TaskManager
 {
 private:
-	// TODO: create a class for the next three to contain them	
-
 	// possibly extract in dictionary-like class 
 	static Vector<User> usersState;
 	static Vector<Task> tasks;
@@ -21,14 +20,12 @@ private:
 	// to copmly with the problem criteria
 	static TaskToUserMap taskToUserMap; // Mapping from task UID to username
 
-	// TODO: delete
-	//static Vector<Pair<int, MyString>> taskToUserMap; // Mapping from task UID to username
-
 	//TODO: extract in CurrentUserState class or something of the sort
 	// for the following two
-	static bool loggedIn;
-	static int currentDashboard;
-	static MyString currentUser;
+	static CurrentUserState currentUserState;
+	//static bool loggedIn;
+	//static int currentDashboard;
+	//static MyString currentUser;
 
 	static void handleCommands(MyString& command, std::istream& is, const char* userDataFile);
 	
@@ -51,7 +48,6 @@ private:
 	static void handleDeleteTask(std::istream& is);
 public:
 	static void start(std::istream& is, const char* userDataFile);
-
 private:
 	static Task& findTask(int taskId);
 	static Task& findTask(const MyString& name);
@@ -61,5 +57,9 @@ private:
 	static void listTasksByDate(const MyString& date);
 	static void listAllTasks();
 
-	void printTask(const Task& task) const;
+	static void printDueDate(const std::time_t* dueDate);
+	static const char* statusToString(Status status);
+
+	static void printTask(const Task& task);
+
 };

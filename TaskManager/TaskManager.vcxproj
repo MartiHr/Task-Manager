@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CurrentUserState.cpp" />
     <ClCompile Include="Dashboard.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="Task.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="UserSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CurrentUserState .h" />
     <ClInclude Include="Dashboard.h" />
     <ClInclude Include="ExceptionMessages.h" />
     <ClInclude Include="MyString.h" />

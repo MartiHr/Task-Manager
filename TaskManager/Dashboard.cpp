@@ -1,47 +1,59 @@
 #include "Dashboard.h"
-#pragma warning(disable : 4996)
+#include <algorithm>
+#include <iostream>
+
+// Helper function to compare if two dates are the same day
+bool sameDay(const std::time_t& a, const std::time_t& b)
+{
+    std::tm tm_a = *std::localtime(&a);
+    std::tm tm_b = *std::localtime(&b);
+    return (tm_a.tm_year == tm_b.tm_year) &&
+        (tm_a.tm_mon == tm_b.tm_mon) &&
+        (tm_a.tm_mday == tm_b.tm_mday);
+}
+
+bool Dashboard::isTaskDueToday(const Task& task) const
+{
+    const std::time_t* dueDate = task.getDueDate();
+    if (dueDate != nullptr)
+    {
+        return sameDay(*dueDate, today);
+    }
+
+    return false;
+}
 
 Dashboard::Dashboard()
 {
-	// Initialize 'today' with the current time
-	today = std::time(nullptr);
+    // Initialize 'today' to the current date
+    std::time(&today);
 }
 
-void Dashboard::setTasks(Vector<Task> tasks) 
+void Dashboard::setTasks(Vector<Task*>& tasks)
 {
-	tasksForToday = tasks;
+    this->tasks = tasks;
 }
 
-void Dashboard::addTask(const Task& task)
+void Dashboard::addTask(Task& task)
 {
-	if (isTaskDueToday(task))
-	{
-		tasksForToday.pushBack(task);
-	}
+    tasks.pushBack(&task);
 }
 
 void Dashboard::free()
 {
-	tasksForToday.clear();
+    tasks.clear();
 }
 
-Vector<Task> Dashboard::getTasksForToday() const
+Vector<Task*> Dashboard::getTasksForToday() const
 {
-	return tasksForToday;
-}
+    Vector<Task*> tasksForToday;
+    for (int i = 0; i < tasks.getSize(); i++)
+    {
+        if (isTaskDueToday(*tasks[i]))
+        {
+            tasksForToday.pushBack(tasks[i]);
+        }
+    }
 
-bool Dashboard::isTaskDueToday(const Task& task)
-{
-	try
-	{
-		std::tm* taskDueDate = std::localtime(task.getDueDate());
-		std::tm* todayDate = std::localtime(&today);
-
-		return (taskDueDate->tm_year == todayDate->tm_year &&
-			taskDueDate->tm_yday == todayDate->tm_yday);
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what() << std::endl;
-	}
+    return tasksForToday;
 }

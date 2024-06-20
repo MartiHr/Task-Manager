@@ -263,19 +263,35 @@ Optional<std::time_t> parseDate(const MyString& dateStr)
 
 void TaskManager::handleAddTask(std::istream& is)
 {
-	MyString name, description, dateStr;
+	MyString name, dateStr, description;
 	is >> name;
 	is >> dateStr;
-	is.ignore(); // Ignore any remaining newline character
-
+	
+	//is.ignore(); // Ignore any remaining newline character
 	// Clear the newline character left in the input buffer by previous >> operations
-	is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
+	/*is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	char descriptionBuffer[1024];
 	is.getline(descriptionBuffer, 1024);
-	description = MyString(descriptionBuffer);
+	description = MyString(descriptionBuffer);*/
 
 	Optional<std::time_t> dueDate;
+
+	//if (description.getSize() > 0)
+	//{
+	//	try
+	//	{
+	//		dueDate = parseDate(dateStr);
+	//	}
+	//	catch (const std::runtime_error& e)
+	//	{
+	//		std::cerr << e.what() << std::endl;
+	//		return;
+	//	}
+	//}
+	//else
+	//{
+	//	description = dateStr;
+	//}
 
 	if (dateStr.getSize() > 0)
 	{
@@ -289,6 +305,8 @@ void TaskManager::handleAddTask(std::istream& is)
 			return;
 		}
 	}
+
+	is >> description;
 
 	Task task(name, dueDate, Status::ON_HOLD, description);
 	tasks.pushBack(task);
@@ -448,6 +466,7 @@ void TaskManager::handleUpdateTaskName(std::istream& is)
 	{
 		Task& taskToChange = findTask(id);
 		taskToChange.setName(newName);
+		std::cout << "Changed the name of the task";
 	}
 	catch (const std::exception& e)
 	{
@@ -466,6 +485,7 @@ void TaskManager::handleStartTask(std::istream& is)
 	{
 		Task& taskToChange = findTask(id);
 		taskToChange.setStatus(Status::IN_PROCESS);
+		std::cout << "Task started" << std::endl;
 	}
 	catch (const std::exception& e)
 	{
@@ -511,23 +531,39 @@ bool isNumber(const char* s)
 
 void TaskManager::handleGetTask(std::istream& is)
 {
-	MyString username;
 	MyString argument;
-
-	is >> username;
 	is >> argument;
 
 	if (isNumber(argument.c_str()))
 	{
 		int id = std::atoi(argument.c_str());
-		Task& task = findTask(id);
-		printTask(task);
+
+		try
+		{
+			Task& task = findTask(id);
+			printTask(task);
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << e.what() << std::endl;
+			return;
+		}
 	}
 	else
 	{
 		MyString& name = argument;
-		Task& task = findTask(name);
-		printTask(task);
+
+		try
+		{
+			Task& task = findTask(name);
+			printTask(task);
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << e.what() << std::endl;
+			return;
+		}
+		
 	}
 }
 

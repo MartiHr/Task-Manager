@@ -140,7 +140,7 @@ void TaskManager::handleLogin(std::istream& is)
 
 			// load the dashboard of the user
 			//dashboard.setTasks(loginUsername);
-
+			dashboard.setTasks()
 			break;
 		}
 		else

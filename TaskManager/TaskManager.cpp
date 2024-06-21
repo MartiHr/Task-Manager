@@ -327,7 +327,6 @@ void TaskManager::listTasksByDate(const MyString& date)
 					dueDateTm->tm_mday == targetTm->tm_mday)
 				{
 					printTask(current);
-					std::cout << std::endl;
 				}
 			}
 		}
@@ -354,7 +353,6 @@ void TaskManager::listAllTasks()
 			int taskId = taskIds[i];
 			Task& current = findTask(taskId);
 			printTask(current);
-			std::cout << std::endl;
 		}
 		catch (const std::exception& e)
 		{
@@ -528,36 +526,6 @@ void TaskManager::handleGetTask(std::istream& is)
 	}
 }
 
-// TODO: delete function
-bool isDate(const char* s)
-{
-	// Simple check: we assume the date is in the format "YYYY-MM-DD"
-	if (strlen(s) != 10)
-	{
-		return false;
-	}
-
-	if (s[4] != '-' || s[7] != '-')
-	{
-		return false;
-	}
-
-	for (int i = 0; i < 10; ++i)
-	{
-		if (i == 4 || i == 7)
-		{
-			continue;
-		}
-
-		if (!isdigit(s[i]))
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
 void TaskManager::handleListTasks(std::stringstream& ss)
 {
 	char argument[256]; // Assuming a reasonable max length for the argument
@@ -618,7 +586,6 @@ void TaskManager::handleListCompletedTasks()
 			if (current.getStatus() == Status::DONE)
 			{
 				printTask(current);
-				std::cout << std::endl;
 			}
 		}
 		catch (const std::exception& e)

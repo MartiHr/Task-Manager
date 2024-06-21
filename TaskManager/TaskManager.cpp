@@ -96,81 +96,6 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 			std::cout << "No such command." << std::endl;
 		}
 	}
-
-	while (command != "exit")
-	{
-		if (command == "register")
-		{
-			handleRegister(is, userDataFile);
-		}
-		else if (command == "login")
-		{
-			handleLogin(is);
-		}
-		else if (command == "logout")
-		{
-			handleLogout();
-		}
-		else if (command == "add-task")
-		{
-			handleAddTask(is);
-		}
-		else if (command == "update-task-name")
-		{
-			handleUpdateTaskName(is);
-		}
-		else if (command == "start-task")
-		{
-			handleStartTask(is);
-		}
-		else if (command == "update-task-description")
-		{
-			handleUpdateTaskDescription(is);
-		}
-		else if (command == "remove-task-from-dashboard")
-		{
-
-		}
-		else if (command == "add-task-to-dashboard")
-		{
-
-		}
-		else if (command == "delete-task")
-		{
-			handleDeleteTask(is);
-		}
-		else if (command == "get-task")
-		{
-			handleGetTask(is);
-		}
-		else if (command == "list-tasks")
-		{
-			handleListTasks(is);
-		}
-		else if (command == "list-completed-tasks")
-		{
-			handleListCompletedTasks();
-		}
-		else if (command == "list-dashboard")
-		{
-
-		}
-		else if (command == "finish-task")
-		{
-			// check whether additional logic is needed for the funciton
-			handleFinishTask(is);
-		}
-		else if (command == "exit")
-		{
-			break;
-		}
-		else
-		{
-			std::cout << "No such command." << std::endl;
-		}
-
-		std::cin >> command;
-	}
 }
 
 void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
@@ -395,7 +320,6 @@ void TaskManager::listAllTasks()
 {
 	for (int i = 0; i < tasks.getSize(); i++)
 	{
-		// TODO: extract into a function for printing a task to reuse
 		Task& current = tasks[i];
 		printTask(current);
 		std::cout << std::endl;
@@ -598,14 +522,23 @@ bool isDate(const char* s)
 
 void TaskManager::handleListTasks(std::istream& is)
 {
-	MyString argument;
+	// Consume the remaining newline character left by std::cin
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	std::string restOfLine;
+	std::getline(std::cin, restOfLine);
+
+	// Extract the argument
+	std::string argument;
+	std::istringstream iss(restOfLine);
+	iss >> argument;
 
 	if (is >> argument)
 	{
 		if (isDate(argument.c_str()))
 		{
 			// Argument is a date
-			listTasksByDate(argument);
+			listTasksByDate(MyString(argument.c_str()));
 		}
 		else
 		{

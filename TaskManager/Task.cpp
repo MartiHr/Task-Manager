@@ -1,8 +1,8 @@
 #include "Task.h"
 
-int Task::lastUid = 0;
+int Task::lastUid = -1;
 
-Task::Task() : uid(getNextUid()), status(Status::ON_HOLD) {}
+Task::Task() : uid(-1), status(Status::ON_HOLD) {}
 
 Task::Task(const MyString& name, Status status, const MyString& description)
 	: uid(getNextUid()), name(name), status(status), description(description) {}

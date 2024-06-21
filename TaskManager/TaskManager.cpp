@@ -30,7 +30,7 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		is.getline(line, sizeof(line));
 		std::stringstream ss(line);
 		ss >> command;
-		
+
 		if (command == "register")
 		{
 			handleRegister(ss, userDataFile);
@@ -147,6 +147,7 @@ void TaskManager::handleLogin(std::istream& is)
 		{
 			std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
 			currentUserState.loggedIn = true;
+			currentUserState.currentUser = loginUsername;
 
 			// load the dashboard of the user
 			//dashboard.setTasks(loginUsername);
@@ -196,7 +197,7 @@ void TaskManager::handleAddTask(std::istream& is)
 	MyString name, dateStr, description;
 	is >> name;
 	is >> dateStr;
-	
+
 	//is.ignore(); // Ignore any remaining newline character
 	// Clear the newline character left in the input buffer by previous >> operations
 	/*is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -282,6 +283,12 @@ Task& TaskManager::findTask(const MyString& name)
 
 void TaskManager::listTasksByDate(const MyString& date)
 {
+	if (!currentUserState.loggedIn)
+	{
+		std::cout << "You should login first" << std::endl;
+		return;
+	}
+
 	std::tm tm = {};
 	std::istringstream ss(date.c_str());
 	ss >> std::get_time(&tm, "%Y-%m-%d");
@@ -301,33 +308,58 @@ void TaskManager::listTasksByDate(const MyString& date)
 
 	std::tm* targetTm = std::localtime(&targetDate);
 
-	for (int i = 0; i < tasks.getSize(); i++)
+	Vector<int> taskIds = taskToUserMap.getTasksForUser(currentUserState.currentUser);
+
+	for (int i = 0; i < taskIds.getSize(); i++)
 	{
-		Task& current = tasks[i];
-		const std::time_t* dueDatePtr = current.getDueDate();
-
-		if (dueDatePtr != nullptr)
+		try
 		{
-			std::tm* dueDateTm = std::localtime(dueDatePtr);
+			Task& current = findTask(taskIds[i]);
 
-			if (dueDateTm->tm_year == targetTm->tm_year &&
-				dueDateTm->tm_mon == targetTm->tm_mon &&
-				dueDateTm->tm_mday == targetTm->tm_mday)
+			const std::time_t* dueDatePtr = current.getDueDate();
+
+			if (dueDatePtr != nullptr)
 			{
-				printTask(current);
-				std::cout << std::endl;
+				std::tm* dueDateTm = std::localtime(dueDatePtr);
+
+				if (dueDateTm->tm_year == targetTm->tm_year &&
+					dueDateTm->tm_mon == targetTm->tm_mon &&
+					dueDateTm->tm_mday == targetTm->tm_mday)
+				{
+					printTask(current);
+					std::cout << std::endl;
+				}
 			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
 		}
 	}
 }
 
 void TaskManager::listAllTasks()
 {
-	for (int i = 0; i < tasks.getSize(); i++)
+	if (!currentUserState.loggedIn)
 	{
-		Task& current = tasks[i];
-		printTask(current);
-		std::cout << std::endl;
+		std::cout << "You should login first" << std::endl;
+		return;
+	}
+
+	Vector<int> taskIds = taskToUserMap.getTasksForUser(currentUserState.currentUser);
+	for (int i = 0; i < taskIds.getSize(); i++)
+	{
+		try
+		{
+			int taskId = taskIds[i];
+			Task& current = findTask(taskId);
+			printTask(current);
+			std::cout << std::endl;
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
 	}
 }
 
@@ -492,10 +524,11 @@ void TaskManager::handleGetTask(std::istream& is)
 			std::cerr << e.what() << std::endl;
 			return;
 		}
-		
+
 	}
 }
 
+// TODO: delete function
 bool isDate(const char* s)
 {
 	// Simple check: we assume the date is in the format "YYYY-MM-DD"
@@ -531,12 +564,14 @@ void TaskManager::handleListTasks(std::stringstream& ss)
 
 	if (ss >> argument)
 	{
-		if (isDate(argument))
+		try
 		{
+			// Try parsing the date
+			parseDate(MyString(argument));
 			// Argument is a date
 			listTasksByDate(MyString(argument));
 		}
-		else
+		catch (const std::exception&)
 		{
 			std::cerr << "Invalid date format. Expected format: YYYY-MM-DD" << std::endl;
 		}
@@ -546,24 +581,6 @@ void TaskManager::handleListTasks(std::stringstream& ss)
 		// No argument provided, list all tasks
 		listAllTasks();
 	}
-
-	//if (is >> argument)
-	//{
-	//	if (isDate(argument))
-	//	{
-	//		// Argument is a date
-	//		listTasksByDate(MyString(argument));
-	//	}
-	//	else
-	//	{
-	//		std::cerr << "Invalid date format. Expected format: YYYY-MM-DD" << std::endl;
-	//	}
-	//}
-	//else
-	//{
-	//	// No argument provided
-	//	listAllTasks();
-	//}
 }
 
 void TaskManager::handleFinishTask(std::istream& is)
@@ -583,52 +600,30 @@ void TaskManager::handleFinishTask(std::istream& is)
 	}
 }
 
-//
-//void printDueDate(const std::time_t* dueDate)
-//{
-//	if (dueDate == nullptr)
-//	{
-//		std::cout << "Due date not set." << std::endl;
-//		return;
-//	}
-//
-//	char buffer[100];
-//	std::tm* timeInfo;
-//
-//	// Convert time_t to tm structure
-//	timeInfo = std::localtime(dueDate);
-//
-//	// Format the date and time into the buffer
-//	std::strftime(buffer, sizeof(buffer), "Due date : %a %b %d %H : %M : %S %Y", timeInfo);
-//
-//	// Print the formatted date and time
-//	std::cout << buffer << std::endl;
-//}
-
-//void printTask(const Task& task)
-//{
-//	std::cout << "Task name : " << task.getName() << std::endl;
-//	std::cout << "Task ID : " << task.getId() << std::endl;
-//	printDueDate(task.getDueDate());
-//	std::cout << "Task desc : " << task.getDescription() << std::endl;
-//	std::cout << "Status : " << statusToString(task.getStatus()) << std::endl;
-//}
-
 void TaskManager::handleListCompletedTasks()
 {
-	//  Task name : Group_project
-	//	Task ID : 1287
-	//	Due date : Fri Mar 15 00 : 00 : 00 2024
-	//	Task desc : example desc
-	//	Status : ON HOLD
-
-	for (int i = 0; i < tasks.getSize(); i++)
+	if (!currentUserState.loggedIn)
 	{
-		Task& current = tasks[i];
-		if (current.getStatus() == Status::DONE)
+		std::cout << "You should login first" << std::endl;
+		return;
+	}
+
+	Vector<int> taskIds = taskToUserMap.getTasksForUser(currentUserState.currentUser);
+	for (int i = 0; i < taskIds.getSize(); i++)
+	{
+		try
 		{
-			printTask(current);
-			std::cout << std::endl;
+			Task& current = findTask(taskIds[i]);
+
+			if (current.getStatus() == Status::DONE)
+			{
+				printTask(current);
+				std::cout << std::endl;
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
 		}
 	}
 }

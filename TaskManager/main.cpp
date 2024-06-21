@@ -5,6 +5,8 @@
 #include "UserSerializer.h"
 #include "TaskManager.h"
 #include "Dashboard.h"
+#include <sstream>
+
 
 int main()
 {
@@ -48,4 +50,27 @@ int main()
 
 	TaskManager::start(std::cin, "users.bin");
 
+
+	//MyString command;
+	//std::cout << '>';
+	//char line[256]; // Assuming a reasonable max length for the input line
+
+	//// Read the entire line into 'line' array
+	//std::cin.getline(line, sizeof(line));
+
+	//std::stringstream ss(line);
+
+	//// Extract the command
+	//ss >> command;
+	//char argument[256]; // Assuming a reasonable max length for the argument
+
+	//if (ss >> argument)
+	//{
+	//	std::cout << "Full";
+	//}
+	//else
+	//{
+	//	std::cout << "Empty";
+	//	
+	//}
 }

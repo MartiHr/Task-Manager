@@ -38,7 +38,7 @@ private:
 	static void handleStartTask(std::istream& is);
 	static void handleUpdateTaskDescription(std::istream& is);
 	static void handleGetTask(std::istream& is);
-	static void handleListTasks(std::istream& is);
+	static void handleListTasks(std::stringstream& ss);
 	static void handleFinishTask(std::istream& is);
 	static void handleListCompletedTasks();
 

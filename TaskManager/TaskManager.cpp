@@ -24,15 +24,20 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 	while (true)
 	{
 		std::cout << '>';
-		is >> command;
+		//is >> command;
+
+		char line[256]; // Assuming a reasonable max length for the input line
+		is.getline(line, sizeof(line));
+		std::stringstream ss(line);
+		ss >> command;
 		
 		if (command == "register")
 		{
-			handleRegister(is, userDataFile);
+			handleRegister(ss, userDataFile);
 		}
 		else if (command == "login")
 		{
-			handleLogin(is);
+			handleLogin(ss);
 		}
 		else if (command == "logout")
 		{
@@ -40,19 +45,19 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		}
 		else if (command == "add-task")
 		{
-			handleAddTask(is);
+			handleAddTask(ss);
 		}
 		else if (command == "update-task-name")
 		{
-			handleUpdateTaskName(is);
+			handleUpdateTaskName(ss);
 		}
 		else if (command == "start-task")
 		{
-			handleStartTask(is);
+			handleStartTask(ss);
 		}
 		else if (command == "update-task-description")
 		{
-			handleUpdateTaskDescription(is);
+			handleUpdateTaskDescription(ss);
 		}
 		else if (command == "remove-task-from-dashboard")
 		{
@@ -64,15 +69,15 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		}
 		else if (command == "delete-task")
 		{
-			handleDeleteTask(is);
+			handleDeleteTask(ss);
 		}
 		else if (command == "get-task")
 		{
-			handleGetTask(is);
+			handleGetTask(ss);
 		}
 		else if (command == "list-tasks")
 		{
-			handleListTasks(is);
+			handleListTasks(ss);
 		}
 		else if (command == "list-completed-tasks")
 		{
@@ -85,7 +90,7 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		else if (command == "finish-task")
 		{
 			// check whether additional logic is needed for the funciton
-			handleFinishTask(is);
+			handleFinishTask(ss);
 		}
 		else if (command == "exit")
 		{
@@ -520,25 +525,16 @@ bool isDate(const char* s)
 	return true;
 }
 
-void TaskManager::handleListTasks(std::istream& is)
+void TaskManager::handleListTasks(std::stringstream& ss)
 {
-	// Consume the remaining newline character left by std::cin
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	char argument[256]; // Assuming a reasonable max length for the argument
 
-	std::string restOfLine;
-	std::getline(std::cin, restOfLine);
-
-	// Extract the argument
-	std::string argument;
-	std::istringstream iss(restOfLine);
-	iss >> argument;
-
-	if (is >> argument)
+	if (ss >> argument)
 	{
-		if (isDate(argument.c_str()))
+		if (isDate(argument))
 		{
 			// Argument is a date
-			listTasksByDate(MyString(argument.c_str()));
+			listTasksByDate(MyString(argument));
 		}
 		else
 		{
@@ -547,9 +543,27 @@ void TaskManager::handleListTasks(std::istream& is)
 	}
 	else
 	{
-		// No argument provided
+		// No argument provided, list all tasks
 		listAllTasks();
 	}
+
+	//if (is >> argument)
+	//{
+	//	if (isDate(argument))
+	//	{
+	//		// Argument is a date
+	//		listTasksByDate(MyString(argument));
+	//	}
+	//	else
+	//	{
+	//		std::cerr << "Invalid date format. Expected format: YYYY-MM-DD" << std::endl;
+	//	}
+	//}
+	//else
+	//{
+	//	// No argument provided
+	//	listAllTasks();
+	//}
 }
 
 void TaskManager::handleFinishTask(std::istream& is)

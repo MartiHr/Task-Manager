@@ -307,6 +307,9 @@ void TaskManager::listTasksByDate(const MyString& date)
 	}
 
 	std::tm* targetTm = std::localtime(&targetDate);
+	int targetYear = targetTm->tm_year;
+	int targetMonth = targetTm->tm_mon;
+	int targetDay = targetTm->tm_mday;
 
 	Vector<int> taskIds = taskToUserMap.getTasksForUser(currentUserState.currentUser);
 
@@ -322,9 +325,9 @@ void TaskManager::listTasksByDate(const MyString& date)
 			{
 				std::tm* dueDateTm = std::localtime(dueDatePtr);
 
-				if (dueDateTm->tm_year == targetTm->tm_year &&
-					dueDateTm->tm_mon == targetTm->tm_mon &&
-					dueDateTm->tm_mday == targetTm->tm_mday)
+				if (dueDateTm->tm_year == targetYear &&
+					dueDateTm->tm_mon == targetMonth &&
+					dueDateTm->tm_mday == targetDay)
 				{
 					printTask(current);
 				}

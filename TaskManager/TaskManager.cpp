@@ -643,7 +643,8 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 	}
 
 	// Get initial state
-	usersState = UserSerializer::readUsers(userDataFile);
+	usersState.setUsers(UserSerializer::readUsers(userDataFile));
+	//usersState = UserSerializer::readUsers(userDataFile);
 
 	handleCommands(is, userDataFile);
 }

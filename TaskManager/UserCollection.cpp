@@ -1,5 +1,10 @@
 #include "UserCollection.h"
 
+void UserCollection::setUsers(const Vector<User>& users)
+{
+    usersState = users;
+}
+
 void UserCollection::addUser(const User& user)
 {
 	usersState.pushBack(user);

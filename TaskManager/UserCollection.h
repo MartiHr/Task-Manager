@@ -8,6 +8,8 @@ class UserCollection
 private:
 	Vector<User> usersState;
 public:
+	void setUsers(const Vector<User>& users);
+	
 	void addUser(const User& user);
 	const Vector<User>& getUsers() const;
 

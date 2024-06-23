@@ -2,6 +2,7 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <iostream>
 #include <sstream>
 #include "TaskManager.h"
 #include "MyString.h"
@@ -461,7 +462,7 @@ void TaskManager::handleUpdateTaskName(std::istream& is)
 		tasks.updateTaskName(id, newName);
 	/*	Task& taskToChange = findTask(id);
 		taskToChange.setName(newName);*/
-		std::cout << "Changed the name of the task";
+		std::cout << "Changed the name of the task" << std::endl;
 	}
 	catch (const std::exception& e)
 	{
@@ -497,7 +498,9 @@ void TaskManager::handleUpdateTaskDescription(std::istream& is)
 	MyString description;
 
 	is >> id;
-	is >> description;
+	char line[256]; // Assuming a reasonable max length for the description
+	is.getline(line, sizeof(line));
+	description = MyString(line);
 
 	try
 	{
@@ -511,6 +514,8 @@ void TaskManager::handleUpdateTaskDescription(std::istream& is)
 		std::cerr << e.what() << std::endl;
 		return;
 	}
+
+	std::cout << "Task description updated" << std::endl;
 }
 
 // TODO: extract in class like utils 

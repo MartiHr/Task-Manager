@@ -8,7 +8,9 @@
 #include "UserSerializer.h"
 #include "Pair.hpp"
 
-Vector<User> TaskManager::usersState;
+//Vector<User> TaskManager::usersState;
+UserCollection TaskManager::usersState;
+
 Vector<Task> TaskManager::tasks;
 Vector<Dashboard> TaskManager::dashboards;
 TaskToUserMap TaskManager::taskToUserMap;
@@ -122,7 +124,8 @@ void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 	UserSerializer::saveUser(currentUser, userDataFile);
 
 	// add to state
-	usersState.pushBack(currentUser);
+	//usersState.pushBack(currentUser);
+	usersState.addUser(currentUser);
 
 	std::cout << "Registered user " << username << " successfully!" << std::endl;
 }
@@ -141,25 +144,38 @@ void TaskManager::handleLogin(std::istream& is)
 	is >> loginUsername;
 	is >> loginPassword;
 
-	for (int i = 0; i < usersState.getSize(); i++)
-	{
-		if (usersState[i].username == loginUsername && usersState[i].password == loginPassword)
-		{
-			std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
-			currentUserState.loggedIn = true;
-			currentUserState.currentUser = loginUsername;
+	bool profileExists = usersState.checkUserExists(loginUsername, loginPassword);
 
-			// load the dashboard of the user
-			//dashboard.setTasks(loginUsername);
-			//dashboard.setTasks()
-			break;
-		}
+	if (profileExists)
+	{
+		std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
+		currentUserState.loggedIn = true;
+		currentUserState.currentUser = loginUsername;
+
+		// load the dashboard of the user
+		//dashboard.setTasks(loginUsername);
+		//dashboard.setTasks()
 	}
+
+	//for (int i = 0; i < usersState.getSize(); i++)
+	//{
+	//	if (usersState[i].username == loginUsername && usersState[i].password == loginPassword)
+	//	{
+	//		std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
+
+	//		currentUserState.loggedIn = true;
+	//		currentUserState.currentUser = loginUsername;
+
+	//		// load the dashboard of the user
+	//		//dashboard.setTasks(loginUsername);
+	//		//dashboard.setTasks()
+	//		break;
+	//	}
+	//}
 
 	if (!currentUserState.loggedIn)
 	{
 		std::cout << "Wrong credentials." << std::endl;
-
 	}
 }
 

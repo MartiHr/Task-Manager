@@ -6,13 +6,15 @@
 #include "Pair.hpp"
 #include "TaskToUserMap.h"
 #include "CurrentUserState .h"
+#include "UserCollection.h"
 
 // engine-like class
 class TaskManager
 {
 private:
 	// possibly extract in dictionary-like class 
-	static Vector<User> usersState;
+	static UserCollection usersState;
+	//static Vector<User> usersState;
 	static Vector<Task> tasks;
 	static Vector<Dashboard> dashboards;
 

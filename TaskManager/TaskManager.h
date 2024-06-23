@@ -47,8 +47,8 @@ private:
 	static void handleListCompletedTasks();
 	static void handleDeleteTask(std::istream& is);
 
+	static void handleAddTaskToDashboard(std::istream& is);
 	static void handleRemoveTaskFromDashboard(std::istream& is);
-	static void handleAddTaskFromDashboard(std::istream& is);
 
 public:
 	static void start(std::istream& is, const char* userDataFile);

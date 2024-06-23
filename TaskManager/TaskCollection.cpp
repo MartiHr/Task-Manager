@@ -37,6 +37,7 @@ void TaskCollection::removeTask(int id)
 		if (tasks[i].getId() == id)
 		{
 			tasks.popAt(i);
+			return;
 		}
 	}
 

@@ -269,7 +269,9 @@ void TaskManager::handleAddTask(std::istream& is)
 		}
 	}
 
-	is >> description;
+	char line[256]; // Assuming a reasonable max length for the description
+	is.getline(line, sizeof(line));
+	description = MyString(line);
 
 	Task task(name, dueDate, Status::ON_HOLD, description);
 

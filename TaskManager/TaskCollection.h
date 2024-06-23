@@ -13,10 +13,14 @@ public:
 	const Vector<Task>& getTasks() const;
 
 	void addTask(const Task& task);
-	void updateTaskName(int id);
-
-
-	void removeTaskAt(int id);
+	void updateTaskName(int id, const MyString& newName);
+	void startTask(int id);
+	void updateTaskDescription(int id, const MyString& newDesc);
 	Task& findTask(int taskId);
 	Task& findTask(const MyString& name);
+
+	void removeTaskAt(int index);
+
+private:
+	
 };

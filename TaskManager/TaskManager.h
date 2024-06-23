@@ -45,11 +45,11 @@ private:
 	static void handleListTasks(std::stringstream& ss);
 	static void handleFinishTask(std::istream& is);
 	static void handleListCompletedTasks();
+	static void handleDeleteTask(std::istream& is);
 
 	static void handleRemoveTaskFromDashboard(std::istream& is);
 	static void handleAddTaskFromDashboard(std::istream& is);
 
-	static void handleDeleteTask(std::istream& is);
 public:
 	static void start(std::istream& is, const char* userDataFile);
 private:

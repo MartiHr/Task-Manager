@@ -447,8 +447,9 @@ void TaskManager::handleUpdateTaskName(std::istream& is)
 
 	try
 	{
-		Task& taskToChange = findTask(id);
-		taskToChange.setName(newName);
+		tasks.updateTaskName(id, newName);
+	/*	Task& taskToChange = findTask(id);
+		taskToChange.setName(newName);*/
 		std::cout << "Changed the name of the task";
 	}
 	catch (const std::exception& e)
@@ -466,8 +467,10 @@ void TaskManager::handleStartTask(std::istream& is)
 
 	try
 	{
-		Task& taskToChange = findTask(id);
-		taskToChange.setStatus(Status::IN_PROCESS);
+		tasks.startTask(id);
+		/*Task& taskToChange = findTask(id);
+		taskToChange.setStatus(Status::IN_PROCESS);*/
+
 		std::cout << "Task started" << std::endl;
 	}
 	catch (const std::exception& e)
@@ -487,8 +490,10 @@ void TaskManager::handleUpdateTaskDescription(std::istream& is)
 
 	try
 	{
-		Task& taskToChange = findTask(id);
-		taskToChange.setDescription(description);
+		tasks.updateTaskDescription(id, description);
+
+		//Task& taskToChange = findTask(id);
+		//taskToChange.setDescription(description);
 	}
 	catch (const std::exception& e)
 	{
@@ -523,7 +528,7 @@ void TaskManager::handleGetTask(std::istream& is)
 
 		try
 		{
-			Task& task = findTask(id);
+			Task& task = tasks.findTask(id);
 			printTask(task);
 		}
 		catch (const std::exception& e)
@@ -538,7 +543,7 @@ void TaskManager::handleGetTask(std::istream& is)
 
 		try
 		{
-			Task& task = findTask(name);
+			Task& task = tasks.findTask(name);
 			printTask(task);
 		}
 		catch (const std::exception& e)
@@ -626,7 +631,8 @@ void TaskManager::handleDeleteTask(std::istream& is)
 
 	try
 	{
-		// assert exists done inside popAt function
+		// indexes and ids of tasks match to
+		// so as not to traverse through indexes
 		tasks.removeTaskAt(id);
 		//tasks.popAt(id);
 

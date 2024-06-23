@@ -7,6 +7,11 @@ void UserCollection::setUsers(const Vector<User>& users)
 
 void UserCollection::addUser(const User& user)
 {
+    if (checkUserExists(user.username, user.password))
+    {
+        throw std::exception("User already exists");
+    }
+
 	usersState.pushBack(user);
 }
 

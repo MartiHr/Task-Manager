@@ -2,7 +2,7 @@
 
 void TaskCollection::addTask(const Task& task)
 {
-	if (checkUnique(task))
+	if (!checkUnique(task))
 	{
 		throw std::exception("Task with the id already exists");
 	}
@@ -41,8 +41,17 @@ bool TaskCollection::checkUnique(const Task& task) const
 	{
 		// cannot get the inforomation from the problem description
 		// as to whether every field should be compared
+		MyString c = task.getDescription();
+		MyString d = tasks[i].getDescription();
 
-		if (task.getId() == tasks[i].getId())
+		Status e = task.getStatus();
+		Status f = tasks[i].getStatus();
+
+		if (task.getId() == tasks[i].getId() 
+			|| (task.getName() == tasks[i].getName()
+				&& *(task.getDueDate()) == *(tasks[i].getDueDate())
+				&& task.getDescription() == tasks[i].getDescription()
+				&& task.getStatus() == tasks[i].getStatus()))
 		{
 			return false;
 		}

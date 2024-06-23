@@ -124,11 +124,22 @@ void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 
 	// add to binary file
 	User currentUser = { username, password };
+
+	try
+	{
+		usersState.addUser(currentUser);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
+
 	UserSerializer::saveUser(currentUser, userDataFile);
 
 	// add to state
 	//usersState.pushBack(currentUser);
-	usersState.addUser(currentUser);
+
 
 	std::cout << "Registered user " << username << " successfully!" << std::endl;
 }
@@ -261,7 +272,16 @@ void TaskManager::handleAddTask(std::istream& is)
 
 	Task task(name, dueDate, Status::ON_HOLD, description);
 
-	tasks.addTask(task);
+	try
+	{
+		tasks.addTask(task);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
+
 	//tasks.pushBack(task);
 
 	int taskId = task.getId();

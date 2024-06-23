@@ -7,26 +7,27 @@
 class Dashboard
 {
 private:
-    std::time_t today;
-    Vector<Task*> tasks;  // Member variable to store pointers to tasks
+	std::time_t today;
 
-    MyString ownerUsername;
-    Vector<int> taskIds;
+	MyString ownerUsername;
+	Vector<int> taskIds;
+
+	// too much overhead for the current example
+	//Vector<Task*> tasks;  // Member variable to store pointers to tasks
 public:
-    Dashboard();
-    Dashboard(const MyString& owner);
+	Dashboard();
+	Dashboard(const MyString& owner);
 
-    void setTasks(Vector<Task*>& tasks);
+	void addTask(int id);
+	void removeTask(int id);
 
-    //void addTask(Task& task);
-    void addTask(int id);
-    void addTask(int id);
+	Vector<Task*> getTasksForToday() const;
 
-    Vector<Task*> getTasksForToday() const;
-    
-    const MyString& getOwnerUsername() const;
+	const MyString& getOwnerUsername() const;
 
-    void free();
+	//void setTasks(Vector<Task*>& tasks);
+	//void addTask(Task& task);
+	//void free();
 private:
-    bool isTaskDueToday(const Task& task) const;
+	bool isTaskDueToday(const Task& task) const;
 };

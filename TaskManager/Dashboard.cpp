@@ -41,14 +41,31 @@ void Dashboard::setTasks(Vector<Task*>& tasks)
     this->tasks = tasks;
 }
 
-void Dashboard::addTask(Task& task)
-{
-    tasks.pushBack(&task);
-}
+//void Dashboard::addTask(Task& task)
+//{
+//    tasks.pushBack(&task);
+//}
 
 void Dashboard::addTask(int id)
 {
     taskIds.pushBack(id);
+}
+
+void Dashboard::removeTask(int id)
+{
+    int indexToPopAt = -1;
+
+    int size = taskIds.getSize();
+
+    for (int i = 0; i < size; i++)
+    {
+        if (taskIds[i] == id)
+        {
+            indexToPopAt = i;
+        }
+    }
+
+    taskIds.popAt(indexToPopAt);
 }
 
 void Dashboard::free()

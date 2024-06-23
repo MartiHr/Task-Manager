@@ -7,7 +7,6 @@
 #include "Dashboard.h"
 #include <sstream>
 
-
 int main()
 {
 	/*User u = { "george", "123123" };

@@ -24,6 +24,7 @@ public:
 	void removeTask(int id);
 
 	Vector<int> getTaskIdsForToday() const;
+	Vector<int> getExpiredTaskIds() const;
 
 private:
 	bool checkUnique(const Task& task) const;

@@ -5,7 +5,7 @@ void DashboardCollection::addDashboard(const Dashboard& dashboard)
 	dashboards.pushBack(dashboard);
 }
 
-void DashboardCollection::removeDashboard(size_t index)
+void DashboardCollection::removeDashboard(int index)
 {
 	if (index < dashboards.getSize())
 	{
@@ -13,19 +13,19 @@ void DashboardCollection::removeDashboard(size_t index)
 	}
 }
 
-Dashboard& DashboardCollection::getDashboard(size_t index)
+Dashboard& DashboardCollection::getDashboard(int index)
 {
 	return dashboards[index];
 }
 
-size_t DashboardCollection::getCount() const
+int DashboardCollection::getCount() const
 {
 	return dashboards.getSize();
 }
 
 Dashboard& DashboardCollection::findDashboardByName(const MyString& username)
 {
-    for (size_t i = 0; i < dashboards.getSize(); ++i)
+    for (int i = 0; i < dashboards.getSize(); ++i)
     {
         if (dashboards[i].getOwnerUsername() == username)
         {

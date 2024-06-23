@@ -69,6 +69,11 @@ const MyString& Dashboard::getOwnerUsername() const
 	return ownerUsername;
 }
 
+const Vector<int>& Dashboard::getTaskIds() const
+{
+	return taskIds;
+}
+
 void Dashboard::populateDashboard(const Vector<int>& idsToAdd)
 {
 	for (int i = 0; i < idsToAdd.getSize(); i++)

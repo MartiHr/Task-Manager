@@ -162,7 +162,9 @@ void TaskManager::handleLogin(std::istream& is)
 		
 		// Ensure dashboard exists
 		dashboards.ensureExists(loginUsername);
-
+		Dashboard& currentUserDashboard = dashboards.findDashboardByName(loginUsername);
+		currentUserDashboard.populateDashboard(tasks.getTaskIdsForToday());
+		currentUserDashboard.depopulateDashboard(tasks.getExpiredTaskIds());
 
 		// load the dashboard of the user
 		//dashboard.setTasks(loginUsername);
@@ -657,7 +659,23 @@ void TaskManager::handleListDashboard()
 		return;
 	}
 
+	try
+	{
+		Dashboard& currentUserDashboard = dashboards.findDashboardByName(currentUserState.currentUser);
+		Vector<int> dashboardIds = currentUserDashboard.getTaskIds();
 
+		int size = dashboardIds.getSize();
+		for (int i = 0; i < size; i++)
+		{
+			int currentTaskId = dashboardIds[i];
+			printTask(tasks.findTask(currentTaskId));
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
 }
 
 void TaskManager::start(std::istream& is, const char* userDataFile)

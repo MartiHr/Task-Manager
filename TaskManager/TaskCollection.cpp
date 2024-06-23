@@ -1,4 +1,4 @@
-#pragma warning(disable:4996)a
+#pragma warning(disable:4996)
 #include "TaskCollection.h"
 
 void TaskCollection::addTask(const Task& task)
@@ -82,6 +82,33 @@ Vector<int> TaskCollection::getTaskIdsForToday() const
 	return taskIdsForToday;
 }
 
+bool isTaskExpired(const Task& task)
+{
+	const std::time_t* dueDate = task.getDueDate();
+	if (dueDate != nullptr)
+	{
+		std::time_t currentTime = std::time(nullptr); // Get current time
+		return (*dueDate < currentTime);
+	}
+
+	return false;
+}
+
+Vector<int> TaskCollection::getExpiredTaskIds() const
+{
+	Vector<int> expiredTaskIds;
+
+	for (int i = 0; i < tasks.getSize(); i++)
+	{
+		if (isTaskExpired(tasks[i]))
+		{
+			expiredTaskIds.pushBack(tasks[i].getId());
+		}
+	}
+
+	return expiredTaskIds;
+}
+
 bool TaskCollection::checkUnique(const Task& task) const
 {
 	int size = tasks.getSize();
@@ -103,7 +130,7 @@ bool TaskCollection::checkUnique(const Task& task) const
 Task& TaskCollection::findTask(int taskId)
 {
 	int size = tasks.getSize();
-	for (size_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
 		if (tasks[i].getId() == taskId)
 		{

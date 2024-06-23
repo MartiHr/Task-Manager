@@ -138,10 +138,6 @@ void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 
 	UserSerializer::saveUser(currentUser, userDataFile);
 
-	// add to state
-	//usersState.pushBack(currentUser);
-
-
 	std::cout << "Registered user " << username << " successfully!" << std::endl;
 }
 
@@ -171,22 +167,6 @@ void TaskManager::handleLogin(std::istream& is)
 		//dashboard.setTasks(loginUsername);
 		//dashboard.setTasks()
 	}
-
-	//for (int i = 0; i < usersState.getSize(); i++)
-	//{
-	//	if (usersState[i].username == loginUsername && usersState[i].password == loginPassword)
-	//	{
-	//		std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
-
-	//		currentUserState.loggedIn = true;
-	//		currentUserState.currentUser = loginUsername;
-
-	//		// load the dashboard of the user
-	//		//dashboard.setTasks(loginUsername);
-	//		//dashboard.setTasks()
-	//		break;
-	//	}
-	//}
 
 	if (!currentUserState.loggedIn)
 	{
@@ -239,23 +219,6 @@ void TaskManager::handleAddTask(std::istream& is)
 
 	Optional<std::time_t> dueDate;
 
-	//if (description.getSize() > 0)
-	//{
-	//	try
-	//	{
-	//		dueDate = parseDate(dateStr);
-	//	}
-	//	catch (const std::runtime_error& e)
-	//	{
-	//		std::cerr << e.what() << std::endl;
-	//		return;
-	//	}
-	//}
-	//else
-	//{
-	//	description = dateStr;
-	//}
-
 	if (dateStr.getSize() > 0)
 	{
 		try
@@ -301,30 +264,6 @@ void TaskManager::handleAddTask(std::istream& is)
 
 	std::cout << "Task added successfully." << std::endl;
 }
-
-//Task& TaskManager::findTask(int taskId)
-//{
-//	if (taskId < 0 || taskId >= tasks.getSize())
-//	{
-//		throw std::invalid_argument("Task does not exist");
-//	}
-//
-//	return tasks[taskId];
-//}
-//
-//Task& TaskManager::findTask(const MyString& name)
-//{
-//	//find the first task with id with the provided name
-//	for (int i = 0; i < tasks.getSize(); i++)
-//	{
-//		if (tasks[i].getName() == name)
-//		{
-//			return tasks[i];
-//		}
-//	}
-//
-//	throw std::invalid_argument("Task does not exist");
-//}
 
 void TaskManager::listTasksByDate(const MyString& date)
 {
@@ -441,16 +380,6 @@ void TaskManager::printTask(const Task& task)
 	std::cout << "Status : " << statusToString(task.getStatus()) << std::endl;
 }
 
-// Possibly not needed
-//Vector<Task> TaskManager::getUserTasks(const MyString& username)
-//{
-//	Vector<Task> currentUserTasks;
-//
-//	taskToUserMap.getTasksForUser(username);
-//
-//	return currentUserTasks;
-//}
-
 void TaskManager::handleUpdateTaskName(std::istream& is)
 {
 	int  id;
@@ -462,8 +391,6 @@ void TaskManager::handleUpdateTaskName(std::istream& is)
 	try
 	{
 		tasks.updateTaskName(id, newName);
-	/*	Task& taskToChange = findTask(id);
-		taskToChange.setName(newName);*/
 		std::cout << "Changed the name of the task" << std::endl;
 	}
 	catch (const std::exception& e)
@@ -482,8 +409,6 @@ void TaskManager::handleStartTask(std::istream& is)
 	try
 	{
 		tasks.startTask(id);
-		/*Task& taskToChange = findTask(id);
-		taskToChange.setStatus(Status::IN_PROCESS);*/
 
 		std::cout << "Task started" << std::endl;
 	}
@@ -507,9 +432,6 @@ void TaskManager::handleUpdateTaskDescription(std::istream& is)
 	try
 	{
 		tasks.updateTaskDescription(id, description);
-
-		//Task& taskToChange = findTask(id);
-		//taskToChange.setDescription(description);
 	}
 	catch (const std::exception& e)
 	{
@@ -612,8 +534,6 @@ void TaskManager::handleFinishTask(std::istream& is)
 	try
 	{
 		tasks.finishTask(id);
-		/*Task& taskToChange = findTask(id);
-		taskToChange.setStatus(Status::DONE);*/
 	}
 	catch (const std::exception& e)
 	{
@@ -657,11 +577,7 @@ void TaskManager::handleDeleteTask(std::istream& is)
 
 	try
 	{
-		// indexes and ids of tasks match to
-		// so as not to traverse through indexes
 		tasks.removeTask(id);
-		//tasks.popAt(id);
-
 		taskToUserMap.removeMappingByTaskId(id);
 	}
 	catch (const std::exception& e)
@@ -685,9 +601,9 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 
 	// Get initial state
 	usersState.setUsers(UserSerializer::readUsers(userDataFile));
-	//usersState = UserSerializer::readUsers(userDataFile);
 
-	// TODO: set tasks state, the the map state and dashboard state
+	// TODO: BONUS set tasks state, the the map state and dashboard state 
+	// (not stated in the problem description). Would be an easy addition.
 
 	handleCommands(is, userDataFile);
 }

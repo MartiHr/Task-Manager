@@ -44,7 +44,7 @@ void TaskCollection::removeTask(int id)
 
 	throw std::exception("No task with the provided id exists");
 }
-	
+
 bool sameDay(std::time_t time1, std::time_t time2)
 {
 	// Convert time_t values to tm structs for day comparison
@@ -78,7 +78,7 @@ Vector<int> TaskCollection::getTaskIdsForToday() const
 			taskIdsForToday.pushBack(tasks[i].getId());
 		}
 	}
-	
+
 	return taskIdsForToday;
 }
 

@@ -4,7 +4,6 @@
 #include "MyString.h"
 #include "ExceptionMessages.h"
 
-// TODO: could derive from abstract class with funcitons for serialization and deserialization
 void UserSerializer::saveUser(const User& user, const char* fileName)
 {
 	std::ofstream file(fileName, std::ios::binary | std::ios::app);
@@ -54,9 +53,9 @@ User UserSerializer::readUser(std::ifstream& file)
 	return user;
 }
 
-Vector<User> UserSerializer::readUsers(const char* fileName)
+Vector<User*> UserSerializer::readUsers(const char* fileName)
 {
-	Vector<User> users;
+	Vector<User*> users;
 
 	std::ifstream file(fileName, std::ios::binary);
 
@@ -78,7 +77,8 @@ Vector<User> UserSerializer::readUsers(const char* fileName)
 				break;
 			}
 
-			users.pushBack(user);
+			User* newUser = new User(user); 
+			users.pushBack(newUser);
 		}
 		catch (const std::exception& e)
 		{

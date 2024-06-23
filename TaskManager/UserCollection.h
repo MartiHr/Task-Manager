@@ -3,16 +3,17 @@
 #include "User.h"
 #include "MyString.h"
 
-// Would be good to inherit a base colleciton class
 class UserCollection
 {
 private:
-	Vector<User> usersState;
-public:
-	void setUsers(const Vector<User>& users);
-	
-	void addUser(const User& user);
-	const Vector<User>& getUsers() const;
+    Vector<User*> usersState; // Store pointers to User objects
 
-	bool checkUserExists(const MyString& loginUsername, const MyString& loginPassword) const;
+public:
+    void setUsers(const Vector<User*>& users);
+    void addUser(User* user); // Accept a pointer to User
+    const Vector<User*>& getUsers() const;
+
+    bool checkUserExists(const MyString& loginUsername, const MyString& loginPassword) const;
+    
+    ~UserCollection();
 };

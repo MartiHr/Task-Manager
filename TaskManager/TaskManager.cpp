@@ -125,7 +125,7 @@ void TaskManager::handleRegister(std::istream& is, const char* userDataFile)
 
 	try
 	{
-		usersState.addUser(currentUser);
+		usersState.addUser(&currentUser);
 	}
 	catch (const std::exception& e)
 	{
@@ -158,7 +158,7 @@ void TaskManager::handleLogin(std::istream& is)
 	{
 		currentUserState.loggedIn = true;
 		currentUserState.currentUser = loginUsername;
-		
+
 		// Ensure dashboard exists
 		dashboards.ensureExists(loginUsername);
 		Dashboard& currentUserDashboard = dashboards.findDashboardByName(loginUsername);
@@ -320,7 +320,7 @@ void TaskManager::listTasksByDate(const MyString& date)
 
 void TaskManager::listAllTasks()
 {
-	
+
 	// could be omitted if a dictionary-like class would be introduced
 	Vector<int> taskIds = taskToUserMap.getTasksForUser(currentUserState.currentUser);
 	for (int i = 0; i < taskIds.getSize(); i++)
@@ -378,11 +378,6 @@ void TaskManager::printTask(const Task& task)
 	printDueDate(task.getDueDate());
 	std::cout << "Task desc : " << task.getDescription() << std::endl;
 	std::cout << "Status : " << statusToString(task.getStatus()) << std::endl;
-}
-
-void TaskManager::populateDashboard(Dashboard& dashboard)
-{
-
 }
 
 void TaskManager::handleUpdateTaskName(std::istream& is)
@@ -609,7 +604,7 @@ void TaskManager::handleAddTaskToDashboard(std::istream& is)
 	{
 		Dashboard& currentUserDashboard = dashboards.findDashboardByName(currentUserState.currentUser);
 		Task& currentTask = tasks.findTask(id);
-		
+
 		if (currentTask.getStatus() != Status::OVERDUE)
 		{
 			currentUserDashboard.addTask(id);
@@ -689,10 +684,9 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 
 	// Get initial state
 	usersState.setUsers(UserSerializer::readUsers(userDataFile));
-
-	// BONUS set tasks state, the the map state and dashboard state 
-	// (not stated in the problem description). Would be an easy addition.
+	
+	// bonus to-do: set tasks state, the the map state and dashboard state 
+	// (not stated in the problem description)
 
 	handleCommands(is, userDataFile);
 }
-

@@ -27,7 +27,6 @@ private:
 
 	static void handleCommands(std::istream& is, const char* userDataFile);
 	
-	//TODO: extract the following three is a sessionManager class
 	static void handleRegister(std::istream& is, const char* userDataFile);
 	static void handleLogin(std::istream& is);
 	static void handleLogout();
@@ -50,19 +49,12 @@ private:
 public:
 	static void start(std::istream& is, const char* userDataFile);
 private:
-	//static Task& findTask(int taskId);
-	//static Task& findTask(const MyString& name);
-	//static Vector<Task> getUserTasks(const MyString& username);
-
-	static void setDashboardTasks(const MyString& username);
 
 	static void listTasksByDate(const MyString& date);
 	static void listAllTasks();
-
-	// TODO: extract in utils class
+	
+	// can be extracted in utils class
 	static void printDueDate(const std::time_t* dueDate);
 	static const char* statusToString(Status status);
 	static void printTask(const Task& task);
-	static void populateDashboard(Dashboard& dashboard);
-	static void removeUnwantedFromDashboard(Dashboard& dashboard);
 };

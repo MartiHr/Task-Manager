@@ -14,7 +14,6 @@ enum class Status
 class Task
 {
 private:
-	//TODO: add snapshot for problem names
 	static int lastUid;
 
 	int uid;

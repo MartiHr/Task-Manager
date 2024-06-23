@@ -86,7 +86,7 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		}
 		else if (command == "list-dashboard")
 		{
-
+			handleListDashboard();
 		}
 		else if (command == "finish-task")
 		{
@@ -95,8 +95,8 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		}
 		else if (command == "exit")
 		{
-			// TODO: save files
 			// TODO: FREE MEMORY HERE!!!!! -> for Vector<T*>
+			// TODO: save files (bonus)
 			break;
 		}
 		else
@@ -156,7 +156,6 @@ void TaskManager::handleLogin(std::istream& is)
 
 	if (profileExists)
 	{
-		std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
 		currentUserState.loggedIn = true;
 		currentUserState.currentUser = loginUsername;
 		
@@ -166,9 +165,7 @@ void TaskManager::handleLogin(std::istream& is)
 		currentUserDashboard.populateDashboard(tasks.getTaskIdsForToday());
 		currentUserDashboard.depopulateDashboard(tasks.getExpiredTaskIds());
 
-		// load the dashboard of the user
-		//dashboard.setTasks(loginUsername);
-		//dashboard.setTasks()
+		std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
 	}
 
 	if (!currentUserState.loggedIn)
@@ -616,6 +613,7 @@ void TaskManager::handleAddTaskToDashboard(std::istream& is)
 		if (currentTask.getStatus() != Status::OVERDUE)
 		{
 			currentUserDashboard.addTask(id);
+			std::cout << "Task successfully added to dashboard" << std::endl;
 		}
 	}
 	catch (const std::exception& e)
@@ -643,6 +641,7 @@ void TaskManager::handleRemoveTaskFromDashboard(std::istream& is)
 		Task& currentTask = tasks.findTask(id);
 
 		currentUserDashboard.removeTask(id);
+		std::cout << "Task successfully removed from dashboard" << std::endl;
 	}
 	catch (const std::exception& e)
 	{

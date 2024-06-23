@@ -23,8 +23,6 @@ private:
 
 	static DashboardCollection dashboards;
 
-	//TODO: extract in CurrentUserState class or something of the sort
-	// for the following two
 	static CurrentUserState currentUserState;
 
 	static void handleCommands(std::istream& is, const char* userDataFile);

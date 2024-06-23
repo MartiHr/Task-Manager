@@ -21,7 +21,7 @@ public:
 	Task& findTask(const MyString& name);
 	void finishTask(int id);
 
-	void removeTaskAt(int index);
+	void removeTask(int id);
 
 private:
 	bool checkUnique(const Task& task) const;

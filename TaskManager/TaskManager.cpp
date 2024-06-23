@@ -657,7 +657,7 @@ void TaskManager::handleDeleteTask(std::istream& is)
 	{
 		// indexes and ids of tasks match to
 		// so as not to traverse through indexes
-		tasks.removeTaskAt(id);
+		tasks.removeTask(id);
 		//tasks.popAt(id);
 
 		taskToUserMap.removeMappingByTaskId(id);
@@ -667,6 +667,8 @@ void TaskManager::handleDeleteTask(std::istream& is)
 		std::cerr << e.what() << std::endl;
 		return;
 	}
+
+	std::cout << "Successfully deleted task with id: " << id << std::endl;
 }
 
 void TaskManager::start(std::istream& is, const char* userDataFile)
@@ -683,7 +685,7 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 	usersState.setUsers(UserSerializer::readUsers(userDataFile));
 	//usersState = UserSerializer::readUsers(userDataFile);
 
-	// TODO set tasks state, the the map state and dashboard state
+	// TODO: set tasks state, the the map state and dashboard state
 
 	handleCommands(is, userDataFile);
 }

@@ -28,9 +28,19 @@ void TaskCollection::updateTaskDescription(int id, const MyString& newDesc)
 	taskToChange.setDescription(newDesc);
 }
 
-void TaskCollection::removeTaskAt(int index)
+void TaskCollection::removeTask(int id)
 {
-	tasks.popAt(index);
+	int size = tasks.getSize();
+
+	for (int i = 0; i < size; i++)
+	{
+		if (tasks[i].getId() == id)
+		{
+			tasks.popAt(i);
+		}
+	}
+
+	throw std::exception("No task with the provided id exists");
 }
 
 bool TaskCollection::checkUnique(const Task& task) const
@@ -39,7 +49,7 @@ bool TaskCollection::checkUnique(const Task& task) const
 
 	for (int i = 0; i < size; i++)
 	{
-		if (task.getId() == tasks[i].getId() 
+		if (task.getId() == tasks[i].getId()
 			|| (task.getName() == tasks[i].getName()
 				&& *(task.getDueDate()) == *(tasks[i].getDueDate())))
 		{
@@ -52,12 +62,16 @@ bool TaskCollection::checkUnique(const Task& task) const
 
 Task& TaskCollection::findTask(int taskId)
 {
-	if (taskId < 0 || taskId >= tasks.getSize())
+	int size = tasks.getSize();
+	for (size_t i = 0; i < size; i++)
 	{
-		throw std::invalid_argument("Task does not exist");
+		if (tasks[i].getId() == taskId)
+		{
+			return tasks[i];
+		}
 	}
 
-	return tasks[taskId];
+	throw std::invalid_argument("Task does not exist");
 }
 
 Task& TaskCollection::findTask(const MyString& name)

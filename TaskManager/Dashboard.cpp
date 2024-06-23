@@ -1,5 +1,6 @@
 #pragma warning(disable:4996)
 #include "Dashboard.h"
+#include "Vector.hpp"
 #include <algorithm>
 #include <iostream>
 

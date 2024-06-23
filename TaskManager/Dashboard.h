@@ -8,6 +8,7 @@ class Dashboard
 private:
     std::time_t today;
     Vector<Task*> tasks;  // Member variable to store pointers to tasks
+    // add tasksToUserMap as to know the owners
     bool isTaskDueToday(const Task& task) const;
 public:
     Dashboard();

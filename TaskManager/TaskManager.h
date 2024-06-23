@@ -23,9 +23,6 @@ private:
 	//TODO: extract in CurrentUserState class or something of the sort
 	// for the following two
 	static CurrentUserState currentUserState;
-	//static bool loggedIn;
-	//static int currentDashboard;
-	//static MyString currentUser;
 
 	static void handleCommands(std::istream& is, const char* userDataFile);
 	

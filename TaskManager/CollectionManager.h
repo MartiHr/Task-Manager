@@ -6,7 +6,7 @@
 #include "TaskToUserMap.h"
 
 
-class TaskCollectionManager
+class CollectionManager
 {
 public:
     static Vector<User> usersState;

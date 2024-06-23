@@ -131,10 +131,12 @@
     <ClCompile Include="Dashboard.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="Task.cpp" />
+    <ClCompile Include="CollectionManager.cpp" />
     <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TaskToUserMap.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="UserCollection.cpp" />
     <ClCompile Include="UserSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,9 +147,11 @@
     <ClInclude Include="Optional.hpp" />
     <ClInclude Include="Pair.hpp" />
     <ClInclude Include="Task.h" />
+    <ClInclude Include="CollectionManager.h" />
     <ClInclude Include="TaskManager.h" />
     <ClInclude Include="TaskToUserMap.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="UserCollection.h" />
     <ClInclude Include="UserSerializer.h" />
     <ClInclude Include="Vector.hpp" />
   </ItemGroup>

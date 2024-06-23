@@ -1,6 +1,6 @@
-#include "TaskCollectionManager.h"
+#include "CollectionManager.h"
 
-Task& TaskCollectionManager::findTask(int taskId)
+Task& CollectionManager::findTask(int taskId)
 {
 	if (taskId < 0 || taskId >= tasks.getSize())
 	{
@@ -10,7 +10,7 @@ Task& TaskCollectionManager::findTask(int taskId)
 	return tasks[taskId];
 }
 
-Task& TaskCollectionManager::findTask(const MyString& name)
+Task& CollectionManager::findTask(const MyString& name)
 {
 	//find the first task with id with the provided name
 	for (int i = 0; i < tasks.getSize(); i++)

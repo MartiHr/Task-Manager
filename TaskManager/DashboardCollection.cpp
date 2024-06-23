@@ -40,3 +40,16 @@ void DashboardCollection::setDashboards(const Vector<Dashboard>& newDashboards)
 {
     dashboards = newDashboards;
 }
+
+void DashboardCollection::ensureExists(const MyString& owner)
+{
+	try
+	{
+		findDashboardByName(owner);
+	}
+	catch (const std::exception&)
+	{
+		Dashboard currentUserDashboard(owner);
+		addDashboard(currentUserDashboard);
+	}
+}

@@ -23,4 +23,8 @@ public:
     Dashboard& findDashboardByName(const MyString& name);
 
 	void setDashboards(const Vector<Dashboard>& newDashboards);
+
+	void setDashboards(const Vector<Dashboard>& newDashboards);
+    void ensureExists(const MyString& owner);
+private:
 };

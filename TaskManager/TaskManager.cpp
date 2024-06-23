@@ -62,7 +62,7 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		}
 		else if (command == "remove-task-from-dashboard")
 		{
-
+			handleRemoveTaskFromDashboard(ss);
 		}
 		else if (command == "add-task-to-dashboard")
 		{
@@ -96,7 +96,7 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		else if (command == "exit")
 		{
 			// TODO: save files
-			// TODO: FREE MEMORY HERE!!!!!
+			// TODO: FREE MEMORY HERE!!!!! -> for Vector<T*>
 			break;
 		}
 		else
@@ -159,6 +159,9 @@ void TaskManager::handleLogin(std::istream& is)
 		std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
 		currentUserState.loggedIn = true;
 		currentUserState.currentUser = loginUsername;
+		
+		// Ensure dashboard exists
+		dashboards.ensureExists(loginUsername);
 
 
 		// load the dashboard of the user
@@ -376,6 +379,11 @@ void TaskManager::printTask(const Task& task)
 	printDueDate(task.getDueDate());
 	std::cout << "Task desc : " << task.getDescription() << std::endl;
 	std::cout << "Status : " << statusToString(task.getStatus()) << std::endl;
+}
+
+void TaskManager::populateDashboard(Dashboard& dashboard)
+{
+
 }
 
 void TaskManager::handleUpdateTaskName(std::istream& is)
@@ -632,13 +640,24 @@ void TaskManager::handleRemoveTaskFromDashboard(std::istream& is)
 		// To validate the task and for extensibility
 		Task& currentTask = tasks.findTask(id);
 
-		currentUserDashboard.addTask(id);
+		currentUserDashboard.removeTask(id);
 	}
 	catch (const std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
 		return;
 	}
+}
+
+void TaskManager::handleListDashboard()
+{
+	if (!currentUserState.loggedIn)
+	{
+		std::cout << "You should login first" << std::endl;
+		return;
+	}
+
+
 }
 
 void TaskManager::start(std::istream& is, const char* userDataFile)
@@ -654,7 +673,7 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 	// Get initial state
 	usersState.setUsers(UserSerializer::readUsers(userDataFile));
 
-	// TODO: BONUS set tasks state, the the map state and dashboard state 
+	// BONUS set tasks state, the the map state and dashboard state 
 	// (not stated in the problem description). Would be an easy addition.
 
 	handleCommands(is, userDataFile);

@@ -46,6 +46,7 @@ private:
 
 	static void handleAddTaskToDashboard(std::istream& is);
 	static void handleRemoveTaskFromDashboard(std::istream& is);
+	static void handleListDashboard();
 
 	static void handleExit();
 public:
@@ -64,5 +65,6 @@ private:
 	static void printDueDate(const std::time_t* dueDate);
 	static const char* statusToString(Status status);
 	static void printTask(const Task& task);
-
+	static void populateDashboard(Dashboard& dashboard);
+	static void removeUnwantedFromDashboard(Dashboard& dashboard);
 };

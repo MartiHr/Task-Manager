@@ -1,3 +1,4 @@
+#pragma warning(disable:4996)a
 #include "TaskCollection.h"
 
 void TaskCollection::addTask(const Task& task)
@@ -43,6 +44,43 @@ void TaskCollection::removeTask(int id)
 
 	throw std::exception("No task with the provided id exists");
 }
+	
+bool sameDay(std::time_t time1, std::time_t time2)
+{
+	// Convert time_t values to tm structs for day comparison
+	std::tm tm1 = *std::localtime(&time1);
+	std::tm tm2 = *std::localtime(&time2);
+
+	// Compare year, month, and day fields
+	return (tm1.tm_year == tm2.tm_year && tm1.tm_mon == tm2.tm_mon && tm1.tm_mday == tm2.tm_mday);
+}
+
+bool TaskCollection::isTaskDueToday(const Task& task) const
+{
+	const std::time_t* dueDate = task.getDueDate();
+	if (dueDate != nullptr)
+	{
+		std::time_t currentTime = std::time(nullptr);
+		return sameDay(*dueDate, currentTime);
+	}
+
+	return false;
+}
+
+Vector<int> TaskCollection::getTaskIdsForToday() const
+{
+	Vector<int> taskIdsForToday;
+
+	for (int i = 0; i < tasks.getSize(); i++)
+	{
+		if (isTaskDueToday(tasks[i]))
+		{
+			taskIdsForToday.pushBack(tasks[i].getId());
+		}
+	}
+	
+	return taskIdsForToday;
+}
 
 bool TaskCollection::checkUnique(const Task& task) const
 {
@@ -60,6 +98,7 @@ bool TaskCollection::checkUnique(const Task& task) const
 
 	return true;
 }
+
 
 Task& TaskCollection::findTask(int taskId)
 {

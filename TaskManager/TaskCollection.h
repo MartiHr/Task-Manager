@@ -23,6 +23,9 @@ public:
 
 	void removeTask(int id);
 
+	Vector<int> getTaskIdsForToday() const;
+
 private:
 	bool checkUnique(const Task& task) const;
+	bool isTaskDueToday(const Task& task) const;
 };

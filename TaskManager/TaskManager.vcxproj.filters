@@ -48,6 +48,12 @@
     <ClCompile Include="UserCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TaskCollection.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TaskCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Task.h">

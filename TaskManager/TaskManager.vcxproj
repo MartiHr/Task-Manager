@@ -132,6 +132,8 @@
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="CollectionManager.cpp" />
+    <ClCompile Include="TaskCollection.cpp" />
+    <ClCompile Include="TaskCollection.h" />
     <ClCompile Include="TaskManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TaskToUserMap.cpp" />

@@ -3,6 +3,7 @@
 #include "User.h"
 #include "MyString.h"
 
+// Would be good to inherit a base colleciton class
 class UserCollection
 {
 private:

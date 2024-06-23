@@ -7,6 +7,7 @@
 #include "TaskToUserMap.h"
 #include "CurrentUserState .h"
 #include "UserCollection.h"
+#include "TaskCollection.h"
 
 // engine-like class
 class TaskManager
@@ -15,12 +16,15 @@ private:
 	// possibly extract in dictionary-like class 
 	static UserCollection usersState;
 	//static Vector<User> usersState;
-	static Vector<Task> tasks;
-	static Vector<Dashboard> dashboards;
+
+	static TaskCollection tasks;
+	//static Vector<Task> tasks;
 
 	// So as not to put additional fields in Task in order
 	// to copmly with the problem criteria
 	static TaskToUserMap taskToUserMap; // Mapping from task UID to username
+
+	static Vector<Dashboard> dashboards;
 
 	//TODO: extract in CurrentUserState class or something of the sort
 	// for the following two
@@ -28,6 +32,7 @@ private:
 
 	static void handleCommands(std::istream& is, const char* userDataFile);
 	
+	//TODO: extract the following three is a sessionManager class
 	static void handleRegister(std::istream& is, const char* userDataFile);
 	static void handleLogin(std::istream& is);
 	static void handleLogout();
@@ -48,9 +53,10 @@ private:
 public:
 	static void start(std::istream& is, const char* userDataFile);
 private:
-	static Task& findTask(int taskId);
-	static Task& findTask(const MyString& name);
+	//static Task& findTask(int taskId);
+	//static Task& findTask(const MyString& name);
 	//static Vector<Task> getUserTasks(const MyString& username);
+
 	static void setDashboardTasks(const MyString& username);
 
 	static void listTasksByDate(const MyString& date);

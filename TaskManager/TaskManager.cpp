@@ -11,9 +11,12 @@
 //Vector<User> TaskManager::usersState;
 UserCollection TaskManager::usersState;
 
-Vector<Task> TaskManager::tasks;
-Vector<Dashboard> TaskManager::dashboards;
+//Vector<Task> TaskManager::tasks;
+TaskCollection TaskManager::tasks;
+
 TaskToUserMap TaskManager::taskToUserMap;
+
+Vector<Dashboard> TaskManager::dashboards;
 
 //bool TaskManager::loggedIn = false;
 CurrentUserState TaskManager::currentUserState;
@@ -256,7 +259,9 @@ void TaskManager::handleAddTask(std::istream& is)
 	is >> description;
 
 	Task task(name, dueDate, Status::ON_HOLD, description);
-	tasks.pushBack(task);
+
+	tasks.addTask(task);
+	//tasks.pushBack(task);
 
 	int taskId = task.getId();
 	// Set the owner of the task if any
@@ -273,29 +278,29 @@ void TaskManager::handleAddTask(std::istream& is)
 	std::cout << "Task added successfully." << std::endl;
 }
 
-Task& TaskManager::findTask(int taskId)
-{
-	if (taskId < 0 || taskId >= tasks.getSize())
-	{
-		throw std::invalid_argument("Task does not exist");
-	}
-
-	return tasks[taskId];
-}
-
-Task& TaskManager::findTask(const MyString& name)
-{
-	//find the first task with id with the provided name
-	for (int i = 0; i < tasks.getSize(); i++)
-	{
-		if (tasks[i].getName() == name)
-		{
-			return tasks[i];
-		}
-	}
-
-	throw std::invalid_argument("Task does not exist");
-}
+//Task& TaskManager::findTask(int taskId)
+//{
+//	if (taskId < 0 || taskId >= tasks.getSize())
+//	{
+//		throw std::invalid_argument("Task does not exist");
+//	}
+//
+//	return tasks[taskId];
+//}
+//
+//Task& TaskManager::findTask(const MyString& name)
+//{
+//	//find the first task with id with the provided name
+//	for (int i = 0; i < tasks.getSize(); i++)
+//	{
+//		if (tasks[i].getName() == name)
+//		{
+//			return tasks[i];
+//		}
+//	}
+//
+//	throw std::invalid_argument("Task does not exist");
+//}
 
 void TaskManager::listTasksByDate(const MyString& date)
 {
@@ -622,7 +627,9 @@ void TaskManager::handleDeleteTask(std::istream& is)
 	try
 	{
 		// assert exists done inside popAt function
-		tasks.popAt(id);
+		tasks.removeTaskAt(id);
+		//tasks.popAt(id);
+
 		taskToUserMap.removeMappingByTaskId(id);
 	}
 	catch (const std::exception& e)
@@ -645,6 +652,8 @@ void TaskManager::start(std::istream& is, const char* userDataFile)
 	// Get initial state
 	usersState.setUsers(UserSerializer::readUsers(userDataFile));
 	//usersState = UserSerializer::readUsers(userDataFile);
+
+	// TODO set tasks state, the the map state and dashboard state
 
 	handleCommands(is, userDataFile);
 }

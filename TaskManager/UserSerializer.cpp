@@ -4,6 +4,7 @@
 #include "MyString.h"
 #include "ExceptionMessages.h"
 
+// TODO: could derive from abstract class with funcitons for serialization and deserialization
 void UserSerializer::saveUser(const User& user, const char* fileName)
 {
 	std::ofstream file(fileName, std::ios::binary | std::ios::app);

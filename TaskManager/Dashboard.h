@@ -14,16 +14,18 @@ private:
     Vector<int> taskIds;
 public:
     Dashboard();
+    Dashboard(const MyString& owner);
 
-    // Set tasks for today
     void setTasks(Vector<Task*>& tasks);
 
-    // Add a single task
-    void addTask(Task& task);
+    //void addTask(Task& task);
+    void addTask(int id);
+    void addTask(int id);
 
-    // Get tasks for today
     Vector<Task*> getTasksForToday() const;
     
+    const MyString& getOwnerUsername() const;
+
     void free();
 private:
     bool isTaskDueToday(const Task& task) const;

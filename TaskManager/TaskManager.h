@@ -8,6 +8,7 @@
 #include "CurrentUserState .h"
 #include "UserCollection.h"
 #include "TaskCollection.h"
+#include "DashboardCollection.h"
 
 // engine-like class
 class TaskManager
@@ -20,7 +21,7 @@ private:
 	// to copmly with the problem criteria
 	static TaskToUserMap taskToUserMap; // Mapping from task UID to username
 
-	static Vector<Dashboard> dashboards;
+	static DashboardCollection dashboards;
 
 	//TODO: extract in CurrentUserState class or something of the sort
 	// for the following two
@@ -46,6 +47,7 @@ private:
 	static void handleAddTaskToDashboard(std::istream& is);
 	static void handleRemoveTaskFromDashboard(std::istream& is);
 
+	static void handleExit();
 public:
 	static void start(std::istream& is, const char* userDataFile);
 private:

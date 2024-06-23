@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="CurrentUserState.cpp" />
     <ClCompile Include="Dashboard.cpp" />
+    <ClCompile Include="DashboardCollection.cpp" />
     <ClCompile Include="MyString.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="CollectionManager.cpp" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="CurrentUserState .h" />
     <ClInclude Include="Dashboard.h" />
+    <ClInclude Include="DashboardCollection.h" />
     <ClInclude Include="ExceptionMessages.h" />
     <ClInclude Include="MyString.h" />
     <ClInclude Include="Optional.hpp" />

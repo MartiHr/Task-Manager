@@ -15,5 +15,4 @@ public:
 	const Vector<User>& getUsers() const;
 
 	bool checkUserExists(const MyString& loginUsername, const MyString& loginPassword) const;
-
 };

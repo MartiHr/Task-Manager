@@ -31,6 +31,11 @@ Dashboard::Dashboard()
     std::time(&today);
 }
 
+Dashboard::Dashboard(const MyString& owner)
+{
+    ownerUsername = owner;
+}
+
 void Dashboard::setTasks(Vector<Task*>& tasks)
 {
     this->tasks = tasks;
@@ -39,6 +44,11 @@ void Dashboard::setTasks(Vector<Task*>& tasks)
 void Dashboard::addTask(Task& task)
 {
     tasks.pushBack(&task);
+}
+
+void Dashboard::addTask(int id)
+{
+    taskIds.pushBack(id);
 }
 
 void Dashboard::free()
@@ -58,4 +68,9 @@ Vector<Task*> Dashboard::getTasksForToday() const
     }
 
     return tasksForToday;
+}
+
+const MyString& Dashboard::getOwnerUsername() const
+{
+    return ownerUsername;
 }

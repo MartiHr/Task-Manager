@@ -9,17 +9,12 @@
 #include "UserSerializer.h"
 #include "Pair.hpp"
 
-//Vector<User> TaskManager::usersState;
 UserCollection TaskManager::usersState;
-
-//Vector<Task> TaskManager::tasks;
 TaskCollection TaskManager::tasks;
-
 TaskToUserMap TaskManager::taskToUserMap;
 
-Vector<Dashboard> TaskManager::dashboards;
+DashboardCollection TaskManager::dashboards;
 
-//bool TaskManager::loggedIn = false;
 CurrentUserState TaskManager::currentUserState;
 
 void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
@@ -71,7 +66,7 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		}
 		else if (command == "add-task-to-dashboard")
 		{
-
+			handleAddTaskToDashboard(ss);
 		}
 		else if (command == "delete-task")
 		{
@@ -100,6 +95,8 @@ void TaskManager::handleCommands(std::istream& is, const char* userDataFile)
 		}
 		else if (command == "exit")
 		{
+			// TODO: save files
+			// TODO: FREE MEMORY HERE!!!!!
 			break;
 		}
 		else
@@ -162,6 +159,7 @@ void TaskManager::handleLogin(std::istream& is)
 		std::cout << "Welcome back, " << loginUsername << "!" << std::endl;
 		currentUserState.loggedIn = true;
 		currentUserState.currentUser = loginUsername;
+
 
 		// load the dashboard of the user
 		//dashboard.setTasks(loginUsername);
@@ -587,6 +585,60 @@ void TaskManager::handleDeleteTask(std::istream& is)
 	}
 
 	std::cout << "Successfully deleted task with id: " << id << std::endl;
+}
+
+void TaskManager::handleAddTaskToDashboard(std::istream& is)
+{
+	if (!currentUserState.loggedIn)
+	{
+		std::cout << "You should login first" << std::endl;
+		return;
+	}
+
+	int id;
+	is >> id;
+
+	try
+	{
+		Dashboard& currentUserDashboard = dashboards.findDashboardByName(currentUserState.currentUser);
+		Task& currentTask = tasks.findTask(id);
+		
+		if (currentTask.getStatus() != Status::OVERDUE)
+		{
+			currentUserDashboard.addTask(id);
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
+}
+
+void TaskManager::handleRemoveTaskFromDashboard(std::istream& is)
+{
+	if (!currentUserState.loggedIn)
+	{
+		std::cout << "You should login first" << std::endl;
+		return;
+	}
+
+	int id;
+	is >> id;
+
+	try
+	{
+		Dashboard& currentUserDashboard = dashboards.findDashboardByName(currentUserState.currentUser);
+		// To validate the task and for extensibility
+		Task& currentTask = tasks.findTask(id);
+
+		currentUserDashboard.addTask(id);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return;
+	}
 }
 
 void TaskManager::start(std::istream& is, const char* userDataFile)

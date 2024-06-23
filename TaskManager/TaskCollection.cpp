@@ -2,6 +2,11 @@
 
 void TaskCollection::addTask(const Task& task)
 {
+	if (checkUnique(task))
+	{
+		throw std::exception("Task with the id already exists");
+	}
+
 	tasks.pushBack(task);
 }
 
@@ -28,8 +33,22 @@ void TaskCollection::removeTaskAt(int index)
 	tasks.popAt(index);
 }
 
-void TaskCollection::removeTaskAt(int id, const MyString& newName)
+bool TaskCollection::checkUnique(const Task& task) const
 {
+	int size = tasks.getSize();
+
+	for (int i = 0; i < size; i++)
+	{
+		// cannot get the inforomation from the problem description
+		// as to whether every field should be compared
+
+		if (task.getId() == tasks[i].getId())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 Task& TaskCollection::findTask(int taskId)
@@ -54,4 +73,10 @@ Task& TaskCollection::findTask(const MyString& name)
 	}
 
 	throw std::invalid_argument("Task does not exist");
+}
+
+void TaskCollection::finishTask(int id)
+{
+	Task& taskToChange = findTask(id);
+	taskToChange.setStatus(Status::DONE);
 }

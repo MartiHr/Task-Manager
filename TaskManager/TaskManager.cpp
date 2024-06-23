@@ -190,6 +190,7 @@ void TaskManager::handleLogout()
 	std::cout << "Logged out" << std::endl;
 }
 
+// TODO: could be extracted to utils class
 Optional<std::time_t> parseDate(const MyString& dateStr)
 {
 	if (dateStr.getSize() == 0)
@@ -304,12 +305,6 @@ void TaskManager::handleAddTask(std::istream& is)
 
 void TaskManager::listTasksByDate(const MyString& date)
 {
-	if (!currentUserState.loggedIn)
-	{
-		std::cout << "You should login first" << std::endl;
-		return;
-	}
-
 	std::tm tm = {};
 	std::istringstream ss(date.c_str());
 	ss >> std::get_time(&tm, "%Y-%m-%d");
@@ -332,13 +327,13 @@ void TaskManager::listTasksByDate(const MyString& date)
 	int targetMonth = targetTm->tm_mon;
 	int targetDay = targetTm->tm_mday;
 
+	// could be omitted if a dictionary-like class is introduced
 	Vector<int> taskIds = taskToUserMap.getTasksForUser(currentUserState.currentUser);
-
 	for (int i = 0; i < taskIds.getSize(); i++)
 	{
 		try
 		{
-			Task& current = findTask(taskIds[i]);
+			Task& current = tasks.findTask(taskIds[i]);
 
 			const std::time_t* dueDatePtr = current.getDueDate();
 
@@ -363,19 +358,15 @@ void TaskManager::listTasksByDate(const MyString& date)
 
 void TaskManager::listAllTasks()
 {
-	if (!currentUserState.loggedIn)
-	{
-		std::cout << "You should login first" << std::endl;
-		return;
-	}
-
+	
+	// could be omitted if a dictionary-like class would be introduced
 	Vector<int> taskIds = taskToUserMap.getTasksForUser(currentUserState.currentUser);
 	for (int i = 0; i < taskIds.getSize(); i++)
 	{
 		try
 		{
 			int taskId = taskIds[i];
-			Task& current = findTask(taskId);
+			Task& current = tasks.findTask(taskId);
 			printTask(current);
 		}
 		catch (const std::exception& e)
@@ -557,6 +548,12 @@ void TaskManager::handleGetTask(std::istream& is)
 
 void TaskManager::handleListTasks(std::stringstream& ss)
 {
+	if (!currentUserState.loggedIn)
+	{
+		std::cout << "You should login first" << std::endl;
+		return;
+	}
+
 	char argument[256]; // Assuming a reasonable max length for the argument
 
 	if (ss >> argument)
@@ -587,8 +584,9 @@ void TaskManager::handleFinishTask(std::istream& is)
 
 	try
 	{
-		Task& taskToChange = findTask(id);
-		taskToChange.setStatus(Status::DONE);
+		tasks.finishTask(id);
+		/*Task& taskToChange = findTask(id);
+		taskToChange.setStatus(Status::DONE);*/
 	}
 	catch (const std::exception& e)
 	{
@@ -605,12 +603,13 @@ void TaskManager::handleListCompletedTasks()
 		return;
 	}
 
+	// could be omitted if a dictionary-like class would be introduced
 	Vector<int> taskIds = taskToUserMap.getTasksForUser(currentUserState.currentUser);
 	for (int i = 0; i < taskIds.getSize(); i++)
 	{
 		try
 		{
-			Task& current = findTask(taskIds[i]);
+			Task& current = tasks.findTask(taskIds[i]);
 
 			if (current.getStatus() == Status::DONE)
 			{

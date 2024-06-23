@@ -16,11 +16,13 @@ public:
 	void updateTaskName(int id, const MyString& newName);
 	void startTask(int id);
 	void updateTaskDescription(int id, const MyString& newDesc);
+	// allowed changing the returned task
 	Task& findTask(int taskId);
 	Task& findTask(const MyString& name);
+	void finishTask(int id);
 
 	void removeTaskAt(int index);
 
 private:
-	
+	bool checkUnique(const Task& task) const;
 };

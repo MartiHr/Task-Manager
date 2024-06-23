@@ -13,13 +13,9 @@
 class TaskManager
 {
 private:
-	// possibly extract in dictionary-like class 
+	// possibly extract the following three in another class 
 	static UserCollection usersState;
-	//static Vector<User> usersState;
-
 	static TaskCollection tasks;
-	//static Vector<Task> tasks;
-
 	// So as not to put additional fields in Task in order
 	// to copmly with the problem criteria
 	static TaskToUserMap taskToUserMap; // Mapping from task UID to username
